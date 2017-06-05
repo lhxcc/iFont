@@ -1,0 +1,11 @@
+{{!-- 使用默认模板布局 --}}
+{{!< default }}
+
+{{!-- 模板body BEGIN --}}
+<div id="page">
+</div>
+{{!-- 模板body END --}}
+
+{{#contentFor "scripts"}}
+  <script src="{{{path 'public/pages/home/index/index.js'}}}"></script>
+{{/contentFor}}

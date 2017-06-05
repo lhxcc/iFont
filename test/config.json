@@ -1,0 +1,9 @@
+{
+    "id": "my",
+    "familyname": "myfontIcon",
+    "deploypath": "",
+    "copyright": "webfont Inc.",
+    "charmap": [
+        {"unicode": "&#xf000;","file": "D:/nodejs项目/fontIcon/test/time.svg"}
+    ]
+}

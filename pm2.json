@@ -1,0 +1,13 @@
+{
+  "apps": [{
+    "name": "ys-data-server",
+    "script": "bin/www",
+    "node_args" : "",
+    "watch": false,
+    "exec_mode": "fork",
+    "instances": "1",
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }]
+}
