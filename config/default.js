@@ -30,7 +30,6 @@ module.exports = {
   },
   fileCfg: {
     inputDir: 'D:\\nodejs项目\\testInput',
-    /*inputDir: 'http://127.0.0.1:3500/test',*/
     outputDir: 'D:\\nodejs项目\\testOutput',
   },
   //sequelize-auto -h "10.80.24.2" -p 3306 -d "data_management" -u "root" -x "88075998" --dialect "mysql" -o "./lib/models"

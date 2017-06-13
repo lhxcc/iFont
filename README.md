@@ -9,6 +9,14 @@
 npm install
 ```
 
+## 配置
+
+```
+修改config中文件
+fileCfg.inputDir 入口文件目录(svg图片池)
+fileCfg.outputDir 出口文件目录
+```
+
 ## 启动
 
 ```
