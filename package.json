@@ -1,5 +1,5 @@
 {
-  "name": "ys-data-server",
+  "name": "ys-font-icon",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://yaoguofeng@git.hikvision.com.cn/scm/ys/ys_data.git"
+    "url": "https://github.com/yaoguofeng00000/fontIcon.git"
   },
   "keywords": [],
   "author": "",
@@ -48,16 +48,10 @@
     "babel-preset-react": "^6.22.0",
     "css-loader": "^0.26.1",
     "del": "^2.2.2",
-    "eslint": "^3.13.1",
-    "eslint-config-airbnb": "^14.0.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^3.0.2",
-    "eslint-plugin-react": "^6.9.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
     "glob": "^7.1.1",
     "gulp": "^3.9.1",
-    "gulp-eslint": "^3.0.1",
     "gulp-util": "^3.0.7",
     "html-webpack-plugin": "^2.24.1",
     "jsx-loader": "^0.13.2",

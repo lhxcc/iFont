@@ -9,19 +9,36 @@ import ReactDOM from 'react-dom';
 class NavbarInstance extends Component{
   constructor() {
     super();
+    this.state = {
+      fontName: ''
+    };
     this.clickHandler = this.clickHandler.bind(this);
+    this.changeHandler = this.changeHandler.bind(this);
+  }
+  changeHandler(e) {
+    this.setState({
+      fontName: e.target.value
+    });
   }
   clickHandler() {
     reqwest({
       url: '/api/fontIconCreate',
       method: 'post',
-      data: {},
+      data: {
+        fontName: this.state.fontName || 'webFont'
+      },
       success: (resData) => {}
     });
   }
   render() {
     return (
       <div>
+        <input
+          placeholder="请输入要生成的字体名"
+          value={this.state.fontName}
+          onChange={this.changeHandler}
+        />
+        <br />
         <button
           onClick={this.clickHandler}
         >test</button>

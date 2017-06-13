@@ -7,7 +7,6 @@
 const path = require('path');
 const del = require('del');
 const gulp = require('gulp');
-const eslint = require('gulp-eslint');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config');
 
@@ -21,18 +20,6 @@ const DEST_DIR = path.join(SRC_DIR, 'dist');
  */
 gulp.task('clean', () => del([`${DEST_DIR}/*`]));
 
-/**
- * 语法检查
- * @type {task}
- */
-gulp.task('eslint', () => gulp.src([
-  '**/*.js',
-  '!dist/**',
-  '!node_modules/**',
-], { cwd: SRC_DIR })
-.pipe(eslint('./.eslintrc.js'))
-.pipe(eslint.format())
-.pipe(eslint.failAfterError()));
 
 /**
  * 拷贝 favicon.ico
