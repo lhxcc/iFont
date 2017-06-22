@@ -20,19 +20,19 @@ logger.info('Config path:', config.get('configPath'));
  */
 
 function normalizePort(val) {
-    const res = parseInt(val, 10);
+  const res = parseInt(val, 10);
 
-    if (isNaN(res)) {
-        // named pipe
-        return val;
-    }
+  if (isNaN(res)) {
+    // named pipe
+    return val;
+  }
 
-    if (res >= 0) {
-        // port number
-        return res;
-    }
+  if (res >= 0) {
+    // port number
+    return res;
+  }
 
-    return false;
+  return false;
 }
 /**
  * Get port from environment and store in Express.
@@ -57,27 +57,27 @@ server.listen(port);
  */
 
 server.on('error', (error) => {
-    if (error.syscall !== 'listen') {
-        throw error;
-    }
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
 
-    const bind = typeof port === 'string' ?
-        `Pipe ${port}` :
-        `Port ${port}`;
+  const bind = typeof port === 'string' ?
+    `Pipe ${port}` :
+    `Port ${port}`;
 
-    // handle specific listen errors with friendly messages
-    switch (error.code) {
-        case 'EACCES':
-            logger.error(`${bind} requires elevated privileges`);
-            process.exit(1);
-            break;
-        case 'EADDRINUSE':
-            logger.error(`${bind} is already in use`);
-            process.exit(1);
-            break;
-        default:
-            throw error;
-    }
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      logger.error(`${bind} requires elevated privileges`);
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      logger.error(`${bind} is already in use`);
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
 });
 
 /**
@@ -85,9 +85,9 @@ server.on('error', (error) => {
  */
 
 server.on('listening', () => {
-    const addr = server.address();
-    const bind = typeof addr === 'string' ?
-        `pipe ${addr}` :
-        `port ${addr.port}`;
-    logger.info(`listening on ${bind}`);
+  const addr = server.address();
+  const bind = typeof addr === 'string' ?
+    `pipe ${addr}` :
+    `port ${addr.port}`;
+  logger.info(`listening on ${bind}`);
 });

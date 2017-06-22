@@ -32,5 +32,12 @@ module.exports = {
     inputDir: 'D:\\nodejs项目\\testInput',
     outputDir: 'D:\\nodejs项目\\testOutput',
   },
+  // 图片服务器配置
+  fastdfs: {
+    uploadLimitByIp: 100,
+    uploadDir: 'upload',
+    uploadUrl: 'http://10.97.124.11:8080/file/transmission',
+    DownloadUrl: 'http://pbimg.ys7.com',
+  },
   //sequelize-auto -h "10.80.24.2" -p 3306 -d "data_management" -u "root" -x "88075998" --dialect "mysql" -o "./lib/models"
 };
