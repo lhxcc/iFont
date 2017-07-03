@@ -1,5 +1,5 @@
 {
-  "name": "ys-font-icon",
+  "name": "ys-iFont",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yaoguofeng00000/fontIcon.git"
+    "url": "https://github.com/yaoguofeng00000/iFont.git"
   },
   "keywords": [],
   "author": "",

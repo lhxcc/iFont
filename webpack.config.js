@@ -39,8 +39,7 @@ function getWebpackConfig(src, dest) {
     module: {
       loaders: [{
         test: /\.(css|less)$/,
-        loader: ExtractTextPlugin.extract('style-loader',
-          '!css-loader?sourceMap!less-loader?sourceMap'),
+        loader: 'style-loader!css-loader?sourceMap!less-loader?sourceMap',
       }, {
         test: /\.(ico|png|jpeg|jpg|gif|svg|ttf|eot|woff|woff2)$/,
         loader: 'url-loader',

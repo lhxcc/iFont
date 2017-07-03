@@ -1,32 +1,67 @@
-@charset "utf-8";
-input{
-  display: block;
+html, body { background: #000; margin: 0; padding:0;}
+ul,li{
+  list-style: none;
+}
+ul,li,p,span,div{
+  padding: 0;
+  margin: 0;
+}
+canvas {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+#page{
+  font-family: Tahoma, '宋体', Helvetica, Arial, STXihei, SimSun, sans-serif;
+  position: relative;
+  height: 100%;
   width: 100%;
-  height: 34px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-  -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
-  -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  .main-box{
+    width: 1160px;
+    min-height: 700px;
+    margin: 0 auto;
+    .search-mascot{
+      width: 168px;
+      height: 185px;
+      background: url(./imgs/search-icon.png) no-repeat;
+      display: block;
+      margin: 100px auto -1px;
+      filter:alpha(opacity=70);
+      -moz-opacity:0.7;
+      -khtml-opacity: 0.7;
+      opacity: 0.7;
+    }
+    .search-input{
+      width: 60%;
+      margin: 0 auto;
+      text-align: center;
+      .sinput {
+        height: 30px;
+        line-height: 21px;
+        width: 100%;
+        display: block;
+        background: url('./imgs/search.png') no-repeat 10px center rgba(20, 24, 33, 0.6);
+        text-indent: 33px;
+        border: 1px solid rgba(255, 255, 255, 0.62)!important;
+        padding: 7px 10px!important;
+        outline: none;
+        color: #fff;
+        font-size: 14px;
+        border-radius: 30px;
+      }
+    }
+    .welcome-tip{
+      font-size: 14px;
+      color: #949597;
+      letter-spacing: 1px;
+      display: block;
+      margin: 30px auto;
+      text-align: center;
+    }
+
+  }
 }
-button{
-  text-shadow: 0 1px 0 #fff;
-  background-image: -webkit-linear-gradient(top,#fff 0,#e0e0e0 100%);
-  background-image: -o-linear-gradient(top,#fff 0,#e0e0e0 100%);
-  background-image: -webkit-gradient(linear,left top,left bottom,from(#fff),to(#e0e0e0));
-  background-image: linear-gradient(to bottom,#fff 0,#e0e0e0 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-  background-repeat: repeat-x;
-  border-color: #dbdbdb;
-  border-color: #ccc;
-}
+
 

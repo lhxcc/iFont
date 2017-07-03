@@ -1,10 +1,14 @@
 /**
  * Created by yaoguofeng on 2017/02/03.
  */
-import './index.less';
 import reqwest from 'reqwest';
 import React,{Component} from 'react';
 import ReactDOM from 'react-dom';
+import Header from  './../../../components/header/Header';
+import MainContent from './../../../components/mainContent/MainContent';
+import Footer from  './../../../components/footer/Footer';
+import './../../../components/canvasBg/CanvasBg';
+import './index.less';
 
 class NavbarInstance extends Component{
   constructor() {
@@ -33,18 +37,20 @@ class NavbarInstance extends Component{
   render() {
     return (
       <div>
-        <input
-          placeholder="请输入要生成的字体名"
-          value={this.state.fontName}
-          onChange={this.changeHandler}
-        />
-        <br />
-        <button
-          onClick={this.clickHandler}
-        >test</button>
+        <Header />
+        <MainContent>
+          <div className="main-box">
+            <mascot className="search-mascot" />
+            <div className="search-input">
+              <input type="text" className="sinput inputstyle" placeholder="搜索" />
+            </div>
+            <span className="welcome-tip">Welcome to use the iFont</span>
+          </div>
+        </MainContent>
+        <Footer />
       </div>
     );
-  };
-};
+  }
+}
 // 然后我们渲染到body里
 ReactDOM.render(<NavbarInstance/>,document.getElementById("page"));

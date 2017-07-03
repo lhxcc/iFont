@@ -1,0 +1,33 @@
+.Header{
+  width: 1160px;
+  height: 55px;
+  margin: 0 auto;
+  position: relative;
+  .HeaderLogo{
+    background: url("./imgs/logo.png") no-repeat;
+    width: 125px;
+    float: left;
+    height: 55px;
+    text-align: center;
+    font-size: 24px;
+    margin-right: 40px;
+  }
+  .nav-box{
+    float: left;
+    .nav-list{
+      .nav-item {
+        line-height: 55px;
+        cursor: pointer;
+        color: rgba(255,255,255,.5);
+        float: left;
+        margin: 0 25px;
+        font-size: 14px;
+        position: relative;
+        &.current{
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
