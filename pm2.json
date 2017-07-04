@@ -1,6 +1,6 @@
 {
   "apps": [{
-    "name": "ys-data-server",
+    "name": "ys-iFont",
     "script": "bin/www",
     "node_args" : "",
     "watch": false,

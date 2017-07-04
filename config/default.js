@@ -13,7 +13,7 @@ const root = process.cwd(); // 进程运行当前目录
 
 module.exports = {
   // 应用
-  app: 'ys-data-server',
+  app: 'ys-iFont',
   configPath: __filename,
   server: {
     // 运行端口，必要，无默认值
