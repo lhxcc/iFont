@@ -1,4 +1,7 @@
 html, body { background: #000; margin: 0; padding:0;}
+body{
+  background: url("./imgs/bg.png");
+}
 ul,li{
   list-style: none;
 }
@@ -25,13 +28,13 @@ canvas {
     .search-mascot{
       width: 168px;
       height: 185px;
-      background: url(./imgs/search-icon.png) no-repeat;
       display: block;
       margin: 100px auto -1px;
       filter:alpha(opacity=70);
       -moz-opacity:0.7;
       -khtml-opacity: 0.7;
       opacity: 0.7;
+      position: relative;
     }
     .search-input{
       width: 60%;
@@ -44,12 +47,15 @@ canvas {
         display: block;
         background: url('./imgs/search.png') no-repeat 10px center rgba(20, 24, 33, 0.6);
         text-indent: 33px;
-        border: 1px solid rgba(255, 255, 255, 0.62)!important;
+        border: 1px solid rgba(255, 255, 255, 0.3)!important;
         padding: 7px 10px!important;
         outline: none;
         color: #fff;
         font-size: 14px;
         border-radius: 30px;
+        &:focus{
+          border: 1px solid rgba(255, 255, 255, 0.7)!important;
+        }
       }
     }
     .welcome-tip{

@@ -10,21 +10,24 @@
     height: 55px;
     text-align: center;
     font-size: 24px;
-    margin-right: 40px;
   }
   .nav-box{
     float: left;
     .nav-list{
       .nav-item {
-        line-height: 55px;
-        cursor: pointer;
-        color: rgba(255,255,255,.5);
         float: left;
         margin: 0 25px;
         font-size: 14px;
         position: relative;
+        line-height: 55px;
+        a{
+          color: rgba(255,255,255,.5);
+          text-decoration: none;
+        }
         &.current{
-          color: #fff;
+          a{
+            color: #fff;
+          }
         }
       }
     }

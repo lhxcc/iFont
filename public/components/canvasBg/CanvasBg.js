@@ -15,8 +15,8 @@ var mousePosition = {
 
 var dots = {
   nb: 200,
-  distance: 60,
-  d_radius: 80,
+  distance: 100,
+  d_radius: 100,
   array: []
 };
 

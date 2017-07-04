@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 import Header from  './../../../components/header/Header';
 import MainContent from './../../../components/mainContent/MainContent';
 import Footer from  './../../../components/footer/Footer';
+import Loading from './../../../components/Loading';
 import './../../../components/canvasBg/CanvasBg';
 import './index.less';
 
@@ -40,7 +41,10 @@ class NavbarInstance extends Component{
         <Header />
         <MainContent>
           <div className="main-box">
-            <mascot className="search-mascot" />
+            <mascot className="search-mascot">
+              IFONT
+              <Loading />
+            </mascot>
             <div className="search-input">
               <input type="text" className="sinput inputstyle" placeholder="搜索" />
             </div>

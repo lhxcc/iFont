@@ -17,9 +17,9 @@ class Header extends Component {
             </div>
             <nav className="nav-box">
               <ul className="nav-list clearfix">
-                <li className="nav-item current">首页</li>
-                <li className="nav-item">图标库</li>
-                <li className="nav-item">图标管理</li>
+                <li className="nav-item current"><a href="/index">首页</a></li>
+                <li className="nav-item"><a>图标库</a></li>
+                <li className="nav-item"><a>图标管理</a></li>
               </ul>
             </nav>
           </div>
