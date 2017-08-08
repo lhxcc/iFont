@@ -11,9 +11,9 @@ let config = {
   output: {
     publicPath: '/',
     path: path.join(__dirname, 'build'),
-    filename: 'static/js/[name]-[chunkhash:8].js',
+    filename: 'js/[name]-[chunkhash:8].js',
     // 添加 chunkFilename
-    chunkFilename: 'static/js/[name].[chunkhash:8].js',
+    chunkFilename: 'js/[name].[chunkhash:8].js',
   },
   module: {
     rules: [
@@ -62,7 +62,7 @@ let config = {
       },
       {
         test: /\.(png|jpeg|jpg|gif|eot|woff|ttf|woff2|svg)$/,
-        loader: 'url-loader?limit=8192&name=static/images/[hash:8].[name].[ext]'
+        loader: 'url-loader?limit=8192&name=images/[hash:8].[name].[ext]'
       },
       {
         test: /\.(docx?|pdf|xlsx)/,
@@ -76,7 +76,7 @@ let config = {
   devtool: 'source-map',
   plugins: [
     // 将样式抽离出来作为单独的文件
-    new ExtractTextPlugin('static/css/[name]-[contenthash:8].css'),
+    new ExtractTextPlugin('css/[name]-[contenthash:8].css'),
     // 将公共代码抽离出来合并为一个文件
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
