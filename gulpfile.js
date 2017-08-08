@@ -1,88 +1,61 @@
-/**
- * Created by feichenxi on 2016/4/15.
- */
-
-'use strict';
-
-const path = require('path');
-const del = require('del');
 const gulp = require('gulp');
+const gutil = require('gulp-util');
+const clean = require('gulp-clean');
 const webpack = require('webpack');
-const webpackConfig = require('./webpack.config');
+const webpackDevServer = require('webpack-dev-server');
+const webpackConfig = require('./webpack.config.js');
+const webpackDevConfig = require('./webpack.dev.config.js');
+const open = require('open');
 
-// 常量定义
-const SRC_DIR = __dirname;
-const DEST_DIR = path.join(SRC_DIR, 'dist');
-
-/**
- * 清理构建目标目录
- * @type {task}
- */
-gulp.task('clean', () => del([`${DEST_DIR}/*`]));
-
-
-/**
- * 拷贝 favicon.ico
- * @type {task}
- */
-gulp.task('favicon', ['clean'], () => gulp.src([
-  'public/favicon.ico',
-], { cwd: SRC_DIR })
-.pipe(gulp.dest(path.join(DEST_DIR, 'public'))));
-
-/**
- * 拷贝 base
- * @type {task}
- */
-gulp.task('base', ['clean'], () => gulp.src([
-    'public/base/**',
-  ], { cwd: SRC_DIR })
-  .pipe(gulp.dest(path.join(DEST_DIR, 'public/base'))));
-/**
- * webpack release 打包
- * @type {task}
- */
-gulp.task('release', ['clean', 'base', 'favicon'], (done) => {
-  const config = webpackConfig.getWebpackConfig(SRC_DIR, DEST_DIR);
-
-  // js文件的压缩
-  config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false,
-    },
-    mangle: {
-      except: ['$', 'm', 'window', 'webpackJsonpCallback'],
-    },
-  }));
-
-  // 执行 webpack
-  let callback = done;
-  webpack(config, (err, stats) => {
-    webpackConfig.releaseCallback(err, stats, callback);
-    callback = null;
-  });
+gulp.task('clean', function(cb) {
+  gulp.src([webpackConfig.output.path]).pipe(clean({force: true}));
+  cb();
 });
 
-/**
- * webpack debug 打包
- * @type {task}
- */
-gulp.task('debug', ['clean', 'base','favicon'], (done) => {
-  const config = webpackConfig.getWebpackConfig(SRC_DIR, DEST_DIR);
+gulp.task('webpack-dev-server', function(callback) {
+  const port = webpackDevConfig.devServer.port;
+  const host = webpackDevConfig.devServer.host;
+  //由于inline模式只有通过webpack-dev-server命令启动时才会起作用，所以执行这个任务启动时无法实现自动刷新；
+  //为了能够实现自动刷新，webpack官网给的方案就是为每个entry增加一个配置；
+  for (let key in webpackDevConfig.entry) {
+    webpackDevConfig.entry[key].unshift("webpack-dev-server/client?http://" + host + ":" + port);
+  }
+  const compiler = webpack(webpackDevConfig);
+  const server = new webpackDevServer(compiler, webpackDevConfig.devServer);
 
-  // 开启监听
-  config.watch = true;
+  server.listen(port, host, function(err) {
+    if (err) {
+      console.log('gulpfile.js:::::' + err);
+      return false;
+    }
+    gutil.log('[webpack-dev-server]', 'http://127.0.0.1:' + port + '/[your-page-name]');
+    open(`http://${host}:${port}`);
+    callback();
+  })
+})
 
-  // 执行 webpack
-  let callback = done;
-  webpack(config, (err, stats) => {
-    webpackConfig.debugCallback(err, stats, callback);
-    callback = null;
-  });
-});
+gulp.task('debug', [
+  'clean', 'webpack-dev-server'
+], function(callback) {
+  callback()
+})
 
-/**
- * 默认任务
- * @type {task}
- */
-gulp.task('default', ['release']);
+gulp.task('release', function(callback) {
+  webpack(webpackConfig, function(err, stats) {
+    if (err) {
+      gutil.log("webpack:" + err);
+      return false;
+    }
+    gutil.log('[webpack:build]', stats.toString({
+      chunks: false, // Makes the build much quieter
+      colors: true
+    }));
+    callback();
+  })
+})
+
+gulp.task('default', [
+  'clean', 'release'
+], function(callback) {
+  callback();
+})

@@ -1,8 +1,2 @@
-
-node_modules/*
-npm-debug.log
-
+/node_modules
 .idea
-.vscode
-dist
-logs

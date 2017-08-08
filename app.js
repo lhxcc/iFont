@@ -16,35 +16,30 @@ const path = require('path');
 const config = require('config');
 const Koa = require('koa');
 const convert = require('koa-convert');
-const sta = require('koa-static');
+const koaStatic = require('koa-static');
 const json = require('koa-json');
 const bodyparser = require('koa-bodyparser');
 
 // require custom modules
 const hbs = require('./lib/common/hbs').hbs;
 const log = require('./lib/common/log');
-const staticMap = require('./lib/common/static-map');
 
 const app = new Koa();
 const logger = log.getLogger(__filename);
 
-const staticPath = path.join(__dirname, 'dist');
-const viewPath = path.join(__dirname, 'views');
+const staticPath = path.join(__dirname, 'build');
+const viewPath = path.join(__dirname, 'build/views');
 
 // set app name
 app.name = config.has('app') ? config.get('app') : 'server';
 
 // global middlewares
-app.use(sta(staticPath, {
+app.use(koaStatic(staticPath, {
   maxage: 100 * 365 * 24 * 60 * 60,
 }));
 app.use(log.getConnect());
 app.use(hbs.middleware({
-  viewPath,
-  partialsPath: path.join(viewPath, 'partials'),
-  layoutsPath: path.join(viewPath, 'layouts'),
-  disableCache: config.has('templateCache') ? (!config.get('templateCache')) : false,
-  defaultLayout: null,
+  viewPath
 }));
 app.use(convert(json(null)));
 app.use(convert(bodyparser({
@@ -56,11 +51,6 @@ app.use(convert(bodyparser({
 
 // Sessions
 app.keys = ['ys-data-server-session-secret'];
-
-// Initialize static file path map
-staticMap.init([
-  path.join(staticPath, 'manifest/manifest.json'),
-]);
 
 // mount root routes
 const router = require('./lib/routes').router;
