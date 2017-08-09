@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import MainContent from './../mainContent/MainContent';
 import './Header.less';
 
 class Header extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {
+      active: props.active
+    };
   }
 
   render() {
@@ -17,9 +21,15 @@ class Header extends Component {
             </div>
             <nav className="nav-box">
               <ul className="nav-list clearfix">
-                <li className="nav-item current"><a href="/index">首页</a></li>
-                <li className="nav-item"><a>图标库</a></li>
-                <li className="nav-item"><a>图标管理</a></li>
+                <li className={`nav-item ${this.state.active === 'home' ? 'current' : ''}`}>
+                  <Link to='/home'>首页</Link>
+                </li>
+                <li className={`nav-item ${this.state.active === 'lib' ? 'current' : ''}`}>
+                  <Link to='/lib'>图标库</Link>
+                </li>
+                <li className={`nav-item ${this.state.active === 'manage' ? 'current' : ''}`}>
+                  <Link to='/manage'>项目管理</Link>
+                </li>
               </ul>
             </nav>
           </div>

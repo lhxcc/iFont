@@ -9,9 +9,9 @@ import Header from  './../../components/header/Header';
 import MainContent from './../../components/mainContent/MainContent';
 import Footer from  './../../components/footer/Footer';
 import './../../components/canvasBg/CanvasBg';
-import './Home.less';
+import './Lib.less';
 
-class HomePage extends Component{
+class LibPage extends Component{
   constructor() {
     super();
     this.state = {
@@ -37,17 +37,13 @@ class HomePage extends Component{
   }
   render() {
     return (
-      <DocumentTitle  title="首页">
+      <DocumentTitle  title="图标库">
         <div className="page-box">
           <div className="page-main">
-            <Header active="home" />
+            <Header active="lib" />
             <MainContent>
-              <div className="home-main-box">
-                <mascot className="search-mascot" />
-                <div className="search-input">
-                  <input type="text" className="sinput inputstyle" placeholder="搜索" />
-                </div>
-                <span className="welcome-tip">Welcome to use the iFont</span>
+              <div className="lib-main-box">
+                这是图标列表页
               </div>
             </MainContent>
           </div>
@@ -57,4 +53,4 @@ class HomePage extends Component{
     );
   }
 }
-export default HomePage;
+export default LibPage;
