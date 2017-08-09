@@ -15,13 +15,12 @@ const path = require('path');
 // require thirdpart modules
 const config = require('config');
 const Koa = require('koa');
-const convert = require('koa-convert');
 const koaStatic = require('koa-static');
+const hbs = require('koa-hbs');
 const json = require('koa-json');
 const bodyparser = require('koa-bodyparser');
 
 // require custom modules
-const hbs = require('./lib/common/hbs').hbs;
 const log = require('./lib/common/log');
 
 const app = new Koa();
@@ -41,13 +40,12 @@ app.use(log.getConnect());
 app.use(hbs.middleware({
   viewPath
 }));
-app.use(convert(json(null)));
-app.use(convert(bodyparser({
+app.use(json(null));
+app.use(bodyparser({
   onerror: function onerror(err, ctx) {
-    // HTTP Error: 422 Unprocessable Entity
     ctx.throw('body parse error', 422);
   },
-})));
+}));
 
 // Sessions
 app.keys = ['ys-data-server-session-secret'];
