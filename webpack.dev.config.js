@@ -52,11 +52,11 @@ let config = {
       },
       {
         test: /\.(png|jpeg|jpg|gif|eot|woff|ttf|woff2|svg)$/,
-        loader: 'url-loader?limit=8192&name=images/[hash:8].[name].[ext]'
+        loader: 'url-loader?limit=8192&name=static/images/[hash:8].[name].[ext]'
       },
       {
         test: /\.(docx?|pdf|xlsx)/,
-        loader: 'file-loader?name=others/[name]-[hash:8].[ext]'
+        loader: 'file-loader?name=static/others/[name]-[hash:8].[ext]'
       }
     ]
   },
@@ -94,7 +94,7 @@ entries.forEach(function(entry) {
   const tpl = path.join(__dirname, 'public/views/template/tpl.html');
   //生成html
   config.plugins.push(new HtmlWebpackPlugin({
-    filename: `views/${entry.name}.html`,
+    filename: `views/${entry.name}.hbs`,
     template: tpl,
     chunks: [entry.name, 'common']
   }));

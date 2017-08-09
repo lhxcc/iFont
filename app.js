@@ -22,6 +22,7 @@ const bodyparser = require('koa-bodyparser');
 
 // require custom modules
 const log = require('./lib/common/log');
+const errorHandler = require('./lib/common/error').handler;
 
 const app = new Koa();
 const logger = log.getLogger(__filename);
@@ -49,6 +50,9 @@ app.use(bodyparser({
 
 // Sessions
 app.keys = ['ys-data-server-session-secret'];
+
+// 统一错误处理
+app.use(errorHandler());
 
 // mount root routes
 const router = require('./lib/routes').router;

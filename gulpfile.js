@@ -52,7 +52,7 @@ gulp.task('release', function() {
   })
 })
 
-gulp.task('debuger',['clean']， function() {
+gulp.task('debug',['clean'], function() {
   webpackDevConfig.watch = true;
   webpack(webpackDevConfig, function(err, stats) {
     if (err) {
