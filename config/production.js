@@ -1,5 +1,5 @@
 /**
- * Created by feichenxi on 16/4/15.
+ *  Created by yaoguofeng on 2017/08/09.
  *
  * config for production.
  * to take effect when $NODE_ENV=production.
