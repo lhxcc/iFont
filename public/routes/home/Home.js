@@ -38,17 +38,19 @@ class HomePage extends Component{
   render() {
     return (
       <DocumentTitle  title="首页">
-        <div>
-          <Header />
-          <MainContent>
-            <div className="main-box">
-              <mascot className="search-mascot" />
-              <div className="search-input">
-                <input type="text" className="sinput inputstyle" placeholder="搜索" />
+        <div className="page-box">
+          <div className="page-main">
+            <Header />
+            <MainContent>
+              <div className="main-box">
+                <mascot className="search-mascot" />
+                <div className="search-input">
+                  <input type="text" className="sinput inputstyle" placeholder="搜索" />
+                </div>
+                <span className="welcome-tip">Welcome to use the iFont</span>
               </div>
-              <span className="welcome-tip">Welcome to use the iFont</span>
-            </div>
-          </MainContent>
+            </MainContent>
+          </div>
           <Footer />
         </div>
       </DocumentTitle>

@@ -6,6 +6,7 @@ import { HashRouter, HashRouter as Router, Route, Redirect } from 'react-router-
 import Bundle from './../../../base/scripts/bundle';
 // 同步引入
 import Home from './../../../routes/home/Home';
+import './../../../base/style/common.scss'
 
 
 class App extends Component {
@@ -17,7 +18,7 @@ class App extends Component {
     return (
       <HashRouter>
         <Router basename="/">
-          <div>
+          <div className="root">
             <Redirect to="/home" />
             <Route exact path="/home" component={Home} />
           </div>

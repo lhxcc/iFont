@@ -32,9 +32,13 @@
 .Header .nav-box .nav-list .nav-item.current a {
   color: #fff;
 }
+.Footer {
+  height: 60px;
+  margin-top: -60px;
+  overflow: hidden;
+}
 .Footer .copyright {
   width: 1160px;
-  margin: 20px auto;
   color: #ddd;
   font-size: 13px;
   text-align: center;
@@ -48,6 +52,7 @@ body {
   background: #000;
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 body {
   background: url(/static/images/18bc265c.bg.png);
@@ -71,15 +76,25 @@ canvas {
   top: 0;
   bottom: 0;
 }
+.root {
+  height: 100%;
+}
 #page {
   font-family: Tahoma, '\5B8B\4F53', Helvetica, Arial, STXihei, SimSun, sans-serif;
   position: relative;
   height: 100%;
-  width: 100%;
+}
+#page .page-box {
+  height: 100%;
+}
+#page .page-main {
+  min-height: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding-bottom: 60px;
 }
 #page .main-box {
   width: 1160px;
-  min-height: 700px;
   margin: 0 auto;
 }
 #page .main-box .search-mascot {
@@ -126,4 +141,4 @@ canvas {
   text-align: center;
 }
 
-/*# sourceMappingURL=index-ba739d44.css.map*/
+/*# sourceMappingURL=index-db790fee.css.map*/

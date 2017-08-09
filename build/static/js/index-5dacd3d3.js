@@ -1090,7 +1090,7 @@ var App = function (_Component) {
           { basename: '/' },
           _react2.default.createElement(
             'div',
-            null,
+            { 'class': 'root' },
             _react2.default.createElement(_reactRouterDom.Redirect, { to: '/home' }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/home', component: _Home2.default })
           )
@@ -1370,7 +1370,6 @@ var Footer = function Footer() {
   return _react2.default.createElement(
     'div',
     { className: 'Footer' },
-    _react2.default.createElement('div', { className: 'Footer-line' }),
     _react2.default.createElement(
       _MainContent2.default,
       null,
@@ -1618,24 +1617,28 @@ var HomePage = function (_Component) {
         { title: '\u9996\u9875' },
         _react2.default.createElement(
           'div',
-          null,
-          _react2.default.createElement(_Header2.default, null),
+          { className: 'page-box' },
           _react2.default.createElement(
-            _MainContent2.default,
-            null,
+            'div',
+            { className: 'page-main' },
+            _react2.default.createElement(_Header2.default, null),
             _react2.default.createElement(
-              'div',
-              { className: 'main-box' },
-              _react2.default.createElement('mascot', { className: 'search-mascot' }),
+              _MainContent2.default,
+              null,
               _react2.default.createElement(
                 'div',
-                { className: 'search-input' },
-                _react2.default.createElement('input', { type: 'text', className: 'sinput inputstyle', placeholder: '\u641C\u7D22' })
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'welcome-tip' },
-                'Welcome to use the iFont'
+                { className: 'main-box' },
+                _react2.default.createElement('mascot', { className: 'search-mascot' }),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'search-input' },
+                  _react2.default.createElement('input', { type: 'text', className: 'sinput inputstyle', placeholder: '\u641C\u7D22' })
+                ),
+                _react2.default.createElement(
+                  'span',
+                  { className: 'welcome-tip' },
+                  'Welcome to use the iFont'
+                )
               )
             )
           ),
@@ -4746,4 +4749,4 @@ module.exports = __webpack_require__(98);
 
 /***/ })
 ],[240]);
-//# sourceMappingURL=index-1ff671ef.js.map
+//# sourceMappingURL=index-5dacd3d3.js.map

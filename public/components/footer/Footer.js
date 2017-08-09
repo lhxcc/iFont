@@ -5,7 +5,6 @@ import './Footer.less';
 const Footer = () => {
   return (
     <div className="Footer">
-      <div className="Footer-line" />
       <MainContent>
         <div className="Footer-content">
           <div className="copyright">

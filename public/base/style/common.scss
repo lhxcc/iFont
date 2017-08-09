@@ -47,20 +47,37 @@ html {
  * 全局背景
  */
 body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
   background: #f3f7fa;
   font: 12px/1.5 tahoma,arial,'Hiragino Sans GB','\5b8b\4f53',sans-serif;
 }
 
-ol, ul {
+ol, ul,li {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-
+ul,li,p,span,div{
+  padding: 0;
+  margin: 0;
+}
+canvas {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
 input::-ms-clear{display:none;}/*隐藏文本框叉子*/
 input::-ms-reveal{display:none;}/*隐藏密码框小眼睛*/
 
 .hide {
   visibility: hidden !important;
   display: none !important;
+}
+
+.root,#page,.page-box{
+  height: 100%;
 }
