@@ -12,7 +12,7 @@ gulp.task('clean', function(cb) {
   cb();
 });
 
-gulp.task('webpack-dev-server', function(callback) {
+gulp.task('webpack-dev-server', function() {
   const port = webpackDevConfig.devServer.port;
   const host = webpackDevConfig.devServer.host;
   //由于inline模式只有通过webpack-dev-server命令启动时才会起作用，所以执行这个任务启动时无法实现自动刷新；
@@ -30,17 +30,16 @@ gulp.task('webpack-dev-server', function(callback) {
     }
     gutil.log('[webpack-dev-server]', 'http://127.0.0.1:' + port + '/[your-page-name]');
     open(`http://${host}:${port}`);
-    callback();
   })
 })
 
-gulp.task('debug', [
+gulp.task('start', [
   'clean', 'webpack-dev-server'
 ], function(callback) {
   callback()
 })
 
-gulp.task('release', function(callback) {
+gulp.task('release', function() {
   webpack(webpackConfig, function(err, stats) {
     if (err) {
       gutil.log("webpack:" + err);
@@ -50,7 +49,20 @@ gulp.task('release', function(callback) {
       chunks: false, // Makes the build much quieter
       colors: true
     }));
-    callback();
+  })
+})
+
+gulp.task('debuger',['clean']， function() {
+  webpackDevConfig.watch = true;
+  webpack(webpackDevConfig, function(err, stats) {
+    if (err) {
+      gutil.log("webpack:" + err);
+      return false;
+    }
+    gutil.log('[webpack:build]', stats.toString({
+      chunks: false, // Makes the build much quieter
+      colors: true
+    }));
   })
 })
 
