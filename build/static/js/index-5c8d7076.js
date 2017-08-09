@@ -3887,18 +3887,14 @@ var App = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         _reactRouterDom.HashRouter,
-        null,
+        { basename: '/' },
         _react2.default.createElement(
-          _reactRouterDom.HashRouter,
-          { basename: '/' },
-          _react2.default.createElement(
-            'div',
-            { className: 'root' },
-            _react2.default.createElement(_reactRouterDom.Redirect, { to: '/home' }),
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/home', component: Home }),
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/lib', component: Lib }),
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/manage', component: Manage })
-          )
+          _reactRouterDom.Switch,
+          null,
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: Home }),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/home', component: Home }),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/lib', component: Lib }),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/manage', component: Manage })
         )
       );
     }
@@ -4069,4 +4065,4 @@ exports.default = Bundle;
 /***/ })
 
 },[234]);
-//# sourceMappingURL=index-1e9c91e7.js.map
+//# sourceMappingURL=index-5c8d7076.js.map

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 // 引入React-Router模块
-import { HashRouter, HashRouter as Router, Route, Redirect } from 'react-router-dom';
+import { HashRouter, HashRouter as Router, Route, Switch } from 'react-router-dom';
 // bundle模型用来异步加载组件
 import Bundle from './../../../base/scripts/bundle';
 // 同步引入
@@ -33,15 +33,13 @@ class App extends Component {
   }
   render() {
     return (
-      <HashRouter>
-        <Router basename="/">
-          <div className="root">
-            <Redirect to="/home" />
-            <Route exact path="/home" component={Home} />
-            <Route exact path="/lib" component={Lib} />
-            <Route exact path="/manage" component={Manage} />
-          </div>
-        </Router>
+      <HashRouter basename="/">
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/home" component={Home} />
+          <Route path="/lib" component={Lib} />
+          <Route path="/manage" component={Manage} />
+        </Switch>
       </HashRouter>
     );
   }
