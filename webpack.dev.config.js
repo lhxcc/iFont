@@ -11,22 +11,12 @@ let config = {
   output: {
     publicPath: '/',
     path: path.join(__dirname, 'build'),
-    filename: 'js/[name]-[chunkhash:8].js',
+    filename: 'static/js/[name]-[chunkhash:8].js',
     // 添加 chunkFilename
-    chunkFilename: 'js/[name].[chunkhash:8].js',
+    chunkFilename: 'static/js/[name].[chunkhash:8].js',
   },
   module: {
     rules: [
-      // 这个只是加载器部分的写法，具体使用请看eslint文档
-      // {
-      //     enforce: "pre",
-      //     test: /\.jsx?$/,
-      //     exclude: path.resolve(__dirname, 'node_modules/'),
-      //     loader: "eslint-loader",
-      //     options: {
-      //         configFile:'./.eslintrc.js'
-      //     }
-      // },
       {
         test: /\.jsx?$/,
         exclude: path.resolve(__dirname, 'node_modules/'),
@@ -76,7 +66,7 @@ let config = {
   devtool: 'source-map',
   plugins: [
     // 将样式抽离出来作为单独的文件
-    new ExtractTextPlugin('css/[name]-[contenthash:8].css'),
+    new ExtractTextPlugin('static/css/[name]-[contenthash:8].css'),
     // 将公共代码抽离出来合并为一个文件
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
@@ -104,7 +94,7 @@ entries.forEach(function(entry) {
   const tpl = path.join(__dirname, 'public/views/template/tpl.html');
   //生成html
   config.plugins.push(new HtmlWebpackPlugin({
-    filename: `${entry.name}.html`,
+    filename: `views/${entry.name}.html`,
     template: tpl,
     chunks: [entry.name, 'common']
   }));

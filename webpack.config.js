@@ -17,16 +17,6 @@ let config = {
   },
   module: {
     rules: [
-      // 这个只是加载器部分的写法，具体使用请看eslint文档
-      // {
-      //     enforce: "pre",
-      //     test: /\.jsx?$/,
-      //     exclude: path.resolve(__dirname, 'node_modules/'),
-      //     loader: "eslint-loader",
-      //     options: {
-      //         configFile:'./.eslintrc.js'
-      //     }
-      // },
       {
         test: /\.jsx?$/,
         exclude: path.resolve(__dirname, 'node_modules/'),
@@ -101,8 +91,8 @@ entries.forEach(function(entry) {
       entry.name, 'common'
     ],
     minify: {
-        removeComments: true,
-        collapseWhitespace: true
+      removeComments: true,
+      collapseWhitespace: true
     }
   }));
 });
