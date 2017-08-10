@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 // 引入React-Router模块
 import { Router } from 'react-router';
-import { HashRouter, Route, Redirect } from 'react-router-dom';
+import { HashRouter, Route } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 
 // bundle模型用来异步加载组件
@@ -11,7 +11,7 @@ import Bundle from './../../../base/scripts/bundle';
 import HomePageContainer from 'bundle-loader?lazy&name=[name]!./../../../routes/home/Home';
 import LibPageContainer from 'bundle-loader?lazy&name=[name]!./../../../routes/lib/Lib';
 import ManagePageContainer from 'bundle-loader?lazy&name=[name]!./../../../routes/manage/Manage';
-import './../../../base/style/common.scss'
+import './../../../base/style/common.scss';
 const history = createBrowserHistory();
 
 const Home = props => (
