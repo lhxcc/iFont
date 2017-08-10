@@ -8,7 +8,7 @@ import DocumentTitle from 'react-document-title';
 import Header from  './../../components/header/Header';
 import MainContent from './../../components/mainContent/MainContent';
 import Footer from  './../../components/footer/Footer';
-import './../../components/canvasBg/CanvasBg';
+import './../../components/canvasBg/StarBg';
 import './Lib.less';
 
 class LibPage extends Component{

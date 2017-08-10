@@ -1,4 +1,38 @@
 @charset "UTF-8";
+/*****************common-style---start********************************/
+html ::-webkit-scrollbar-track-piece {
+  background-color: #000;
+  /*滚动条的背景颜色*/
+  -webkit-border-radius: 0;
+  /*滚动条的圆角宽度*/ }
+
+html ::-webkit-scrollbar {
+  width: 10px;
+  /*滚动条的宽度*/
+  height: 8px;
+  /*滚动条的高度*/ }
+
+html ::-webkit-scrollbar-thumb:vertical {
+  /*垂直滚动条的样式*/
+  height: 50px;
+  background-color: #acacac;
+  -webkit-border-radius: 4px;
+  outline: 1px solid #000;
+  outline-offset: -2px;
+  border: 1px solid #000; }
+
+html ::-webkit-scrollbar-thumb:hover {
+  /*滚动条的hover样式*/
+  height: 50px;
+  background-color: #acacac;
+  -webkit-border-radius: 4px; }
+
+html ::-webkit-scrollbar-thumb:horizontal {
+  /*水平滚动条的样式*/
+  width: 5px;
+  background-color: #CCCCCC;
+  -webkit-border-radius: 6px; }
+
 html {
   font-size: 625%;
   height: 100%; }
@@ -46,7 +80,8 @@ body {
   margin: 0;
   height: 100%;
   background: #f3f7fa;
-  font: 12px/1.5 tahoma,arial,'Hiragino Sans GB','\5B8B\4F53',sans-serif; }
+  font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px; }
 
 ol, ul, li {
   list-style: none;
@@ -79,4 +114,4 @@ input::-ms-reveal {
 .root, #page, .page-box {
   height: 100%; }
 
-/*# sourceMappingURL=index-8b89b7b6.css.map*/
+/*# sourceMappingURL=index-0a9385b9.css.map*/

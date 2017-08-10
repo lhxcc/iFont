@@ -387,7 +387,7 @@ var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(98);
+var _reactRouterDom = __webpack_require__(99);
 
 var _MainContent = __webpack_require__(241);
 
@@ -412,7 +412,7 @@ var Header = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
 
     _this.state = {
-      active: props.active
+      active: _this.props.active
     };
     return _this;
   }
@@ -445,7 +445,7 @@ var Header = function (_Component) {
                   { className: 'nav-item ' + (this.state.active === 'home' ? 'current' : '') },
                   _react2.default.createElement(
                     _reactRouterDom.Link,
-                    { to: '/home' },
+                    { to: '/' },
                     '\u9996\u9875'
                   )
                 ),
@@ -506,7 +506,7 @@ exports = module.exports = __webpack_require__(236)(undefined);
 
 
 // module
-exports.push([module.i, ".Header {\n  height: 55px;\n  margin: 0 auto;\n  position: relative;\n}\n.Header .HeaderLogo {\n  background: url(" + __webpack_require__(252) + ") no-repeat;\n  width: 125px;\n  float: left;\n  height: 55px;\n  text-align: center;\n  font-size: 24px;\n}\n.Header .nav-box {\n  float: left;\n}\n.Header .nav-box .nav-list .nav-item {\n  float: left;\n  margin: 0 25px;\n  font-size: 14px;\n  position: relative;\n  line-height: 55px;\n}\n.Header .nav-box .nav-list .nav-item a {\n  color: rgba(255, 255, 255, 0.5);\n  text-decoration: none;\n}\n.Header .nav-box .nav-list .nav-item.current a {\n  color: #fff;\n}\n", ""]);
+exports.push([module.i, ".Header {\n  height: 55px;\n  margin: 0 auto;\n  position: relative;\n}\n.Header .HeaderLogo {\n  background: url(" + __webpack_require__(252) + ") no-repeat;\n  width: 125px;\n  float: left;\n  height: 55px;\n  text-align: center;\n  font-size: 24px;\n}\n.Header .nav-box {\n  float: left;\n}\n.Header .nav-box .nav-list .nav-item {\n  float: left;\n  margin: 0 25px;\n  font-size: 14px;\n  position: relative;\n  line-height: 55px;\n}\n.Header .nav-box .nav-list .nav-item a {\n  color: rgba(255, 255, 255, 0.5);\n  text-decoration: none;\n}\n.Header .nav-box .nav-list .nav-item.current a {\n  color: #fff;\n  font-weight: bold;\n}\n", ""]);
 
 // exports
 
@@ -1287,7 +1287,7 @@ exports = module.exports = __webpack_require__(236)(undefined);
 
 
 // module
-exports.push([module.i, "body {\n  background: url(" + __webpack_require__(264) + ") #000 !important;\n}\n#page {\n  position: relative;\n}\n#page .page-main {\n  min-height: 100%;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  padding-bottom: 60px;\n}\n#page .manage-main-box {\n  min-height: 600px;\n  background: rgba(255, 255, 255, 0.8);\n  color: #000;\n}\n", ""]);
+exports.push([module.i, "body {\n  background: url(" + __webpack_require__(264) + ") #000 !important;\n}\n#page {\n  position: relative;\n}\n#page .page-main {\n  min-height: 100%;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  padding-bottom: 60px;\n}\n#page .manage-main-box {\n  min-height: 1000px;\n  background: #16181e;\n  color: #fff;\n}\n", ""]);
 
 // exports
 
@@ -1334,4 +1334,4 @@ module.exports = __webpack_require__.p + "static/images/18bc265c.bg.png";
 /***/ })
 
 });
-//# sourceMappingURL=Manage.accfae80.js.map
+//# sourceMappingURL=Manage.87a78332.js.map

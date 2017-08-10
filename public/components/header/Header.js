@@ -7,7 +7,7 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: props.active
+      active: this.props.active
     };
   }
 
@@ -22,7 +22,7 @@ class Header extends Component {
             <nav className="nav-box">
               <ul className="nav-list clearfix">
                 <li className={`nav-item ${this.state.active === 'home' ? 'current' : ''}`}>
-                  <Link to='/home'>首页</Link>
+                  <Link to='/'>首页</Link>
                 </li>
                 <li className={`nav-item ${this.state.active === 'lib' ? 'current' : ''}`}>
                   <Link to='/lib'>图标库</Link>
