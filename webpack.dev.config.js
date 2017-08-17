@@ -6,7 +6,7 @@ const glob = require('glob');
 
 let config = {
   entry: {
-    'common' : ['react', 'react-dom', 'react-document-title']
+    'common' : ['react', 'react-dom', 'react-document-title', 'whatwg-fetch']
   },
   output: {
     publicPath: '/',

@@ -1,15 +1,18 @@
 /**
  * Created by yaoguofeng on 2017/02/03.
  */
-import reqwest from 'reqwest';
 import React,{Component} from 'react';
 import ReactDOM from 'react-dom';
 import DocumentTitle from 'react-document-title';
+import { Tabs } from 'antd';
 import Header from  './../../components/header/Header';
 import MainContent from './../../components/mainContent/MainContent';
 import Footer from  './../../components/footer/Footer';
+import IconList from './../../components/iconList/IconList';
 import './../../components/canvasBg/StarBg';
 import './Lib.less';
+
+const TabPane = Tabs.TabPane;
 
 class LibPage extends Component{
   constructor() {
@@ -17,7 +20,6 @@ class LibPage extends Component{
     this.state = {
       fontName: ''
     };
-    this.clickHandler = this.clickHandler.bind(this);
     this.changeHandler = this.changeHandler.bind(this);
   }
   changeHandler(e) {
@@ -25,16 +27,7 @@ class LibPage extends Component{
       fontName: e.target.value
     });
   }
-  clickHandler() {
-    reqwest({
-      url: '/api/fontIconCreate',
-      method: 'post',
-      data: {
-        fontName: this.state.fontName || 'webFont'
-      },
-      success: (resData) => {}
-    });
-  }
+
   render() {
     return (
       <DocumentTitle  title="图标库">
@@ -42,9 +35,18 @@ class LibPage extends Component{
           <div className="page-main">
             <Header active="lib" />
             <MainContent>
-              <div className="lib-main-box">
-                这是图标列表页
-              </div>
+              <Tabs defaultActiveKey="1" animated={false}>
+                <TabPane tab="官方图标库" key="1">
+                  <div className="lib-main-box">
+                    <IconList type="1" />
+                  </div>
+                </TabPane>
+                <TabPane tab="常用图标库" key="2">
+                  <div className="lib-main-box">
+                    <IconList type="2" />
+                  </div>
+                </TabPane>
+              </Tabs>
             </MainContent>
           </div>
           <Footer />

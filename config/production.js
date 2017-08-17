@@ -14,7 +14,6 @@ const root = process.cwd(); // 进程运行当前目录
 
 module.exports = {
   // 应用
-  // 应用
   app: 'ys-iFont',
   configPath: __filename,
   server: {
@@ -34,4 +33,11 @@ module.exports = {
     inputDir: 'D:\\nodejs项目\\testInput',
     outputDir: 'D:\\nodejs项目\\testOutput',
   },
+  mysql: {
+    database: 'iFont',
+    host: '10.82.3.136',
+    username: 'civil',
+    password: '123',
+    port: 3306
+  }
 };

@@ -12,6 +12,7 @@ import HomePageContainer from 'bundle-loader?lazy&name=[name]!./../../../routes/
 import LibPageContainer from 'bundle-loader?lazy&name=[name]!./../../../routes/lib/Lib';
 import ManagePageContainer from 'bundle-loader?lazy&name=[name]!./../../../routes/manage/Manage';
 import './../../../base/style/common.scss';
+import './../../../base/style/iconfont.css';
 const history = createBrowserHistory();
 
 const Home = props => (

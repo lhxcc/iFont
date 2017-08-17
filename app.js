@@ -39,7 +39,8 @@ app.use(koaStatic(staticPath, {
 }));
 app.use(log.getConnect());
 app.use(hbs.middleware({
-  viewPath
+  viewPath,
+  disableCache: true
 }));
 app.use(json(null));
 app.use(bodyparser({

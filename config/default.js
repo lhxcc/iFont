@@ -28,16 +28,13 @@ module.exports = {
     // 默认 info
     level: 'debug',
   },
-  fileCfg: {
-    inputDir: 'D:\\nodejs项目\\testInput',
-    outputDir: 'D:\\nodejs项目\\testOutput',
-  },
   // 图片服务器配置
-  fastdfs: {
-    uploadLimitByIp: 100,
-    uploadDir: 'upload',
-    uploadUrl: 'http://10.97.124.11:8080/file/transmission',
-    DownloadUrl: 'http://pbimg.ys7.com',
-  },
-  //sequelize-auto -h "10.80.24.2" -p 3306 -d "data_management" -u "root" -x "88075998" --dialect "mysql" -o "./lib/models"
+  mysql: {
+    database: 'fed',
+    host: '10.82.3.136',
+    username: 'civil',
+    password: '123',
+    port: 3306
+  }
+  //sequelize-auto -h "10.82.3.136" -p 3306 -d "fed" -u "civil" -x "123" --dialect "mysql" -o "./lib/models"
 };

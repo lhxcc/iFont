@@ -1,0 +1,49 @@
+.icon-item-box{
+  float: left;
+  margin: 15px 13px;
+  width: 100px;
+  height: 105px;
+  text-align: center;
+  position: relative;
+  overflow: visible;
+  border: 1px dashed transparent;
+  border-radius: 5px;
+  &.selected {
+    border-color: #60606d;
+  }
+  &:hover {
+    cursor: pointer;
+    .icon-cover {
+      display: block;
+    }
+  }
+  .icon-cover {
+    width: 100%;
+    height: 100%;
+    background: rgba(13,10,49,.9);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    overflow: hidden;
+    vertical-align: middle;
+    border-radius: 5px;
+  }
+  svg {
+    margin-top: 18px;
+    max-width: 100%;
+  }
+  .icon-name {
+    display: block;
+    width: 100%;
+    height: 20px;
+    line-height: 20px;
+    color: #666;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
