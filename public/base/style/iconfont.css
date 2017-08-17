@@ -15,10 +15,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-shoucang:before { content: "\e68e"; }
+.icon-favorite:before { content: "\e68e"; }
 
-.icon-shoucang1:before { content: "\e698"; }
+.icon-favorite1:before { content: "\e698"; }
 
-.icon-shanchu:before { content: "\e668"; }
+.icon-delete:before { content: "\e668"; }
 
-.icon-shoucang2:before { content: "\e601"; }
+.icon-favorite2:before { content: "\e601"; }

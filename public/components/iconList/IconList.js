@@ -23,8 +23,9 @@ export default class IconList extends Component {
   renderList(data) {
     const _this = this;
     return data.map((item,i) => {
+      const todos = ['del'];
       return (
-          <Icon info={item} />
+          <Icon info={item} todos={todos} />
       );
     });
   }
