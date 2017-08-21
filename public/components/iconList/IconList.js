@@ -23,9 +23,9 @@ export default class IconList extends Component {
   renderList(data) {
     const _this = this;
     return data.map((item,i) => {
-      const todos = ['del'];
+      const todos = ['fav'];
       return (
-          <Icon info={item} todos={todos} />
+          <Icon key={item.id} info={item} todos={todos} />
       );
     });
   }
@@ -36,7 +36,7 @@ export default class IconList extends Component {
       data: {
         type: this.props.type,
         offset: 0,
-        limit: 10
+        limit: 100
       }
     });
     fetchData.then((res) => {
@@ -62,7 +62,7 @@ export default class IconList extends Component {
               <Loading/>
             </div>
           : <div>
-              <ul>
+              <ul className="icon-list">
                 {iconList}
               </ul>
 

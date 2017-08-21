@@ -1,13 +1,14 @@
 .icon-item-box{
-  float: left;
-  margin: 15px 13px;
-  width: 100px;
+  margin: 15px .5%;
+  width: 9%;
+  min-width: 100px;
   height: 105px;
   text-align: center;
   position: relative;
   overflow: visible;
   border: 1px dashed transparent;
   border-radius: 5px;
+  color: #666;
   &.selected {
     border-color: #60606d;
   }
@@ -28,8 +29,24 @@
     overflow: hidden;
     vertical-align: middle;
     border-radius: 5px;
+    color: #fff;
     .iconfont {
-      font-size: 22px;
+      font-size: 24px;
+      display: block;
+      &.icon-favoritesfilling{
+        color: #f00;
+      }
+      &.cover-item-single{
+        line-height: 103px;
+        height: 103px;
+      }
+      &.cover-item-double{
+        line-height: 52px;
+        height: 52px;
+        &:hover{
+          background: #000;
+        }
+      }
     }
   }
   svg {
