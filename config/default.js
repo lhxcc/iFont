@@ -35,6 +35,9 @@ module.exports = {
     username: 'civil',
     password: '123',
     port: 3306
+  },
+  fileCfg: {
+    downloadDir: 'build/download'
   }
   //sequelize-auto -h "10.82.3.136" -p 3306 -d "fed" -u "civil" -x "123" --dialect "mysql" -o "./lib/models"
 };

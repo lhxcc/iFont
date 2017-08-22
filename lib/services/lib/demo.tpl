@@ -26,7 +26,7 @@ ul,li{list-style:none;}
     background-color: #eee;
     border-bottom: 1px solid #fff;
 }
-.icon{font-size:40px;}
+.icon{font-size:30px;	margin: 10px;}
 
 /* css */
 <%= cssStyle %>

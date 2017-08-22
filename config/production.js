@@ -29,15 +29,14 @@ module.exports = {
     // 默认 info
     level: 'debug',
   },
-  fileCfg: {
-    inputDir: 'D:\\nodejs项目\\testInput',
-    outputDir: 'D:\\nodejs项目\\testOutput',
-  },
   mysql: {
     database: 'iFont',
     host: '10.82.3.136',
     username: 'civil',
     password: '123',
     port: 3306
+  },
+  fileCfg: {
+    downloadDir: 'build/download'
   }
 };

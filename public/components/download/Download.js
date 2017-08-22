@@ -2,7 +2,31 @@ import React, { Component } from 'react';
 import store from 'store';
 import FetchData from './../../base/scripts/FetchData.js';
 import Icon from './../icon/Icon';
+import JSZip from 'jszip';
+import JSZipUtils from 'jszip-utils';
+import saveAs from 'jszip/vendor/FileSaver'
 import './Download.less';
+
+let Promise = window.Promise;
+if (!Promise) {
+  Promise = JSZip.external.Promise;
+}
+/**
+ * Fetch the content and return the associated promise.
+ * @param {String} url the url of the content to fetch.
+ * @return {Promise} the promise containing the data.
+ */
+function urlToPromise(url) {
+  return new Promise(function(resolve, reject) {
+    JSZipUtils.getBinaryContent(url, function (err, data) {
+      if(err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+}
 
 class Download extends Component {
   constructor() {
@@ -51,16 +75,32 @@ class Download extends Component {
   startDownloadIcons() {
     const list = this.state.list;
     if(list.length == 0) return false;
-    debugger
     const fetchData = new FetchData({
       url: '/api/font/download',
       method: 'POST',
       data: {
-        downList: list
+        downList: JSON.stringify(list)
       }
     });
     fetchData.then((res) => {
-      debugger
+      const zip = new JSZip();
+      res.data.files.map(item => {
+        const filename =  `iconfont.${item}`;
+        const folder = res.data.newDownloadDir;
+        const url = '/download/' + res.data.newDownloadDir+ '/' + filename;
+        zip.folder(folder).file(filename, urlToPromise(url), {binary:false});
+      });
+      zip.generateAsync({type:"blob"}, function updateCallback(metadata) {
+        var msg = "progression : " + metadata.percent.toFixed(2) + " %";
+        if(metadata.currentFile) {
+          msg += ", current file = " + metadata.currentFile;
+        }
+      }).then(function callback(blob) {
+          // see FileSaver.js
+          saveAs(blob, "example.zip");
+        }, function (e) {
+
+        });
     });
   }
   /**
