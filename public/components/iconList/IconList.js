@@ -9,8 +9,8 @@ import Icon from './../icon/Icon';
 import './IconList.less';
 
 export default class IconList extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       loading: true,
       list: []
@@ -25,7 +25,7 @@ export default class IconList extends Component {
     return data.map((item,i) => {
       const todos = ['fav'];
       return (
-          <Icon key={item.id} info={item} todos={todos} />
+        <Icon key={item.id} info={item} todos={todos} refreshStore={() => {this.props.refreshStore()}} />
       );
     });
   }
@@ -44,8 +44,6 @@ export default class IconList extends Component {
         loading: false,
         list: res.data.result
       });
-    }).catch((err) => {
-      debugger
     });
   }
 

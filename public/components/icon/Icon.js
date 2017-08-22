@@ -7,8 +7,8 @@ import store from 'store';
 import './Icon.less';
 
 export default class Icon extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       id: '',
       name: '',
@@ -87,7 +87,7 @@ export default class Icon extends Component {
    * 点击收藏/取消icon事件
    */
   favIcon (e) {
-    const id = e.target.getAttribute("id");
+    const id = this.state.id;
     const { isFoved } = this.state;
     let ifontFavIcons = store.get("_ifont_fav_icons") || [];
     let newArray = [];
@@ -100,7 +100,9 @@ export default class Icon extends Component {
     } else {
       newArray = ifontFavIcons;
       newArray.push({
-        id
+        id,
+        name: this.state.name,
+        show_svg: this.state.show_svg
       });
     }
     store.remove('_ifont_fav_icons');
@@ -110,7 +112,8 @@ export default class Icon extends Component {
     this.setState({
       isFoved: !this.state.isFoved
     });
-
+    // 刷新头部数据
+    this.props.refreshStore && this.props.refreshStore();
   }
   /**
    * 组件生命周期：正在渲染
@@ -120,7 +123,7 @@ export default class Icon extends Component {
     const item = this.state;
     const todosHTML = this.renderTodos(this.props.todos || [], item);
     return (
-      <li className={`icon-item-box ${item.isFoved ? 'selected' : ''}`}>
+      <li className={`icon-item-box ${item.isFoved ? 'selected' : ''} ${this.props.className || ''}`}>
         <div dangerouslySetInnerHTML={{__html: item.show_svg}} />
         <span className="icon-name">{item.name}</span>
         <div className="icon-cover">

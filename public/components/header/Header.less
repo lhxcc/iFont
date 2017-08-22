@@ -1,3 +1,22 @@
+@keyframes ripple {
+    0% {
+        left:10px;
+        top:8px;
+        opacity:.95;
+        width:0;
+        height:0
+    }
+    99% {
+        left:-25px;
+        top:-27px;
+        opacity:.3;
+        width:80px;
+        height:80px
+    }
+    100% {
+        opacity:0
+    }
+}
 .Header{
   height: 55px;
   margin: 0 auto;
@@ -30,6 +49,76 @@
           }
         }
       }
+    }
+  }
+  .quick-menu{
+    float: right;
+    height: 55px;
+    line-height: 55px;
+    li {
+      margin: 0 13px;
+      float: left;
+      position: relative;
+      &:hover{
+        .icon-login-user,
+        .icon-fav{
+          color: #fff;
+        }
+      }
+    }
+    .icon-box {
+      color: rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+      position: relative;
+      .iconfont {
+        font-size: 26px;
+        vertical-align: middle;
+      }
+    }
+    .icon-fav-count {
+      min-width: 14px;
+      text-align: center;
+      line-height: 14px;
+      display: inline-block;
+      position: absolute;
+      right: -10px;
+      top: -12px;
+      background: red;
+      color: #fff;
+      border-radius: 17px;
+      padding: 6px;
+      font-size: 16px;
+      transform: scale(.7);
+      font-family: Tahoma!important;
+      &::before {
+        content: ' ';
+        position: absolute;
+        left: 10px;
+        top: 8px;
+        opacity: .75;
+        width: 0;
+        height: 0;
+        background-color: red;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(0,0,0,.3) inset;
+        z-index: -1;
+      }
+    }
+    .count-ani{
+      &::before {
+        -webkit-animation-name:ripple;
+        -webkit-animation-duration:.8s;
+        -webkit-animation-timing-function:ease;
+        -webkit-animation-delay:0s;
+        -webkit-animation-iteration-count:1;
+        -webkit-animation-direction:normal
+      }
+    }
+
+    .icon-login-user{
+      color: #ccc;
+      font-size: 14px;
+      padding: 0 6px;
     }
   }
 }

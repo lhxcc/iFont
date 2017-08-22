@@ -1,0 +1,145 @@
+.download-box{
+  .mask{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+    background: rgba(10, 10, 10, 0.9);
+  }
+  .download-header {
+    height: 55px;
+    background: #0a0f30;
+    position: relative;
+    z-index: 100;
+    .top-back{
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #fff;
+      cursor: pointer;
+      height: 55px;
+      line-height: 55px;
+      font-size: 18px;
+      width: 26px;
+      background: red;
+      text-align: left;
+      z-index: 2;
+    }
+    .icon-box {
+      position: absolute;
+      color: #fff;
+      left: 35px;
+      top: 0;
+      z-index: 1;
+      .iconfont {
+        font-size: 40px;
+        line-height: 55px;
+        color: rgba(255,255,255,.3);
+      }
+      .icon-fav-count {
+        line-height: 14px;
+        position: absolute;
+        right: -5px;
+        top: 5px;
+        background: red;
+        font-size: 16px;
+        color: #fff;
+        min-width: 14px;
+        display: inline-block;
+        border-radius: 17px;
+        padding: 6px;
+        transform: scale(.7);
+        font-family: tahoma!important;
+        text-align: center;
+      }
+    }
+    .top-btn-wrap{
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      font-size: 12px;
+      color: rgba(255,255,255,.5);
+      cursor: pointer;
+      &:hover{
+        color:#fff;
+      }
+    }
+  }
+  .icon-item-box{
+    &.download-icon-item{
+      border:0px;
+      min-width: 60px;
+      width: 60px;
+      height: 65px;
+      margin: 7px 4px 10px;
+      cursor: pointer;
+      font-size: 26px;
+      .icon-name,svg {
+        margin-top: 0px;
+      }
+      .icon-cover .iconfont.cover-item-single {
+        line-height: 65px;
+        height: 65px;
+      }
+    }
+  }
+  .download-btn-group{
+    padding-top: 30px;
+    .download-btn{
+      display: block;
+      width: 164px;
+      margin: 16px auto 25px;
+      border-radius: 40px;
+      &:hover{
+        background: #f00;
+        color:#fff;
+      }
+    }
+  }
+  .download-main{
+    width: 300px;
+    height: 100%;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 9999;
+    background: #f3f3f3;
+    -webkit-transform: translateX(100%);
+    -moz-transform: translateX(100%);
+    -ms-transform: translateX(100%);
+    transform: translateX(100%);
+    opacity: 0;
+    -webkit-transition: all .3s cubic-bezier(.25,.5,.5,.9);
+    -moz-transition: all .3s cubic-bezier(.25,.5,.5,.9);
+    transition: all .3s cubic-bezier(.25,.5,.5,.9);
+    &.show {
+      display: block;
+      -webkit-transform: translateX(0);
+      -moz-transform: translateX(0);
+      -ms-transform: translateX(0);
+      transform: translateX(0);
+      opacity: 1;
+    }
+    .download-icons-box{
+      padding: 5px;
+      height: 450px;
+      overflow: auto;
+      background: #fcfcfc;
+      text-align: center;
+    }
+    .download-icons{
+      display: flex;
+      flex-wrap: wrap;
+      .no-result{
+        margin-top: 60px;
+        width: 100%;
+        background: url('./imgs/no-icon.jpg') #fcfcfc no-repeat top center;
+        padding-top: 170px;
+        text-align: center;
+        color: #666;
+      }
+    }
+  }
+}

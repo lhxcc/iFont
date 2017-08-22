@@ -19,6 +19,14 @@
 
 .icon-favoritesfilling:before { content: "\e654"; }
 
-.icon-favoritesList:before { content: "\e698"; }
-
 .icon-favorite:before { content: "\e65f"; }
+
+.icon-top:before { content: "\e608"; }
+
+.icon-download:before { content: "\e699"; }
+
+.icon-people:before { content: "\e61e"; }
+
+.icon-right:before { content: "\e64e"; }
+
+.icon-clear:before { content: "\e66b"; }

@@ -1,6 +1,6 @@
 /*****************common-style---start********************************/
 html ::-webkit-scrollbar-track-piece{
-    background-color:#000;/*滚动条的背景颜色*/
+    background-color:#eee;/*滚动条的背景颜色*/
     -webkit-border-radius:0;/*滚动条的圆角宽度*/
 }
 
@@ -15,7 +15,7 @@ html ::-webkit-scrollbar-thumb:vertical{/*垂直滚动条的样式*/
     -webkit-border-radius:4px;
     outline:1px solid #000;
     outline-offset:-2px;
-    border: 1px solid #000;
+    border: 1px solid #eee;
 }
 html ::-webkit-scrollbar-thumb:hover{/*滚动条的hover样式*/
     height:50px;
@@ -39,7 +39,7 @@ html {
 }
 
 @media screen and (max-width: 600px){
-    
+
 }
 
 /**
@@ -80,4 +80,33 @@ input::-ms-reveal{display:none;}/*隐藏密码框小眼睛*/
 
 .root,#page,.page-box{
   height: 100%;
+}
+.btn {
+  display: inline-block;
+  padding: 0 20px;
+  height: 32px;
+  line-height: 30px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #999;
+  text-align: center;
+  white-space: nowrap;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  box-sizing: border-box;
+}
+.btn-normal {
+  color: #333;
+  background-color: #ddd;
+}
+.btn-disabled,.btn-disabled:hover {
+  color: #ccc !important;
+  cursor: not-allowed !important;
+  background-color: #fcfcfc !important;
 }
