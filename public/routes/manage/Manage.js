@@ -1,9 +1,7 @@
 /**
  * Created by yaoguofeng on 2017/02/03.
  */
-import reqwest from 'reqwest';
 import React,{Component} from 'react';
-import ReactDOM from 'react-dom';
 import DocumentTitle from 'react-document-title';
 import Header from  './../../components/header/Header';
 import MainContent from './../../components/mainContent/MainContent';
@@ -17,22 +15,11 @@ class ManagePage extends Component{
     this.state = {
       fontName: ''
     };
-    this.clickHandler = this.clickHandler.bind(this);
     this.changeHandler = this.changeHandler.bind(this);
   }
   changeHandler(e) {
     this.setState({
       fontName: e.target.value
-    });
-  }
-  clickHandler() {
-    reqwest({
-      url: '/api/fontIconCreate',
-      method: 'post',
-      data: {
-        fontName: this.state.fontName || 'webFont'
-      },
-      success: (resData) => {}
     });
   }
   render() {
