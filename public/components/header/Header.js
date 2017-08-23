@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import store from 'store';
 import MainContent from './../mainContent/MainContent';
+import Download from './../../components/download/Download';
 import './Header.less';
 
 class Header extends Component {
@@ -25,7 +26,7 @@ class Header extends Component {
       count: ifontFavIcons.length
     });
   }
-  refreshHeadIconCount() {
+  refreshHeadIcon() {
     let ifontFavIcons = store.get("_ifont_fav_icons") || [];
     this.setState({
       count: ifontFavIcons.length,
@@ -36,6 +37,7 @@ class Header extends Component {
         refreshing: false
       })
     },1000);
+    this.refs.download.refreshDownloadIcons();
   }
   render() {
     return (
@@ -60,7 +62,7 @@ class Header extends Component {
             </nav>
             <div className="quick-menu">
               <ul className="clearfix">
-                <li onClick={() => {this.props.downloadIconShow()}}>
+                <li onClick={() => {this.refs.download.show()}}>
                   <span className="icon-box icon-fav">
                     <i className="iconfont icon-download" />
                     <span id="J_icon_fav_count" className={`icon-fav-count ${this.state.refreshing ? 'count-ani' : ''}`}>{this.state.count}</span>
@@ -77,6 +79,7 @@ class Header extends Component {
           </div>
         </MainContent>
         <div className="Header-line" />
+        <Download ref="download" refreshStore={this.props.refreshStore} />
       </div>
     );
   }

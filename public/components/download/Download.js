@@ -87,8 +87,8 @@ class Download extends Component {
       res.data.files.map(item => {
         const filename =  `iconfont.${item}`;
         const folder = res.data.newDownloadDir;
-        const url = '/download/' + res.data.newDownloadDir+ '/' + filename;
-        zip.folder(folder).file(filename, urlToPromise(url), {binary:false});
+        const url = window.location.origin + '/download/' + res.data.newDownloadDir+ '/' + filename;
+        zip.folder(folder).file(filename, urlToPromise(url), {binary:true});
       });
       zip.generateAsync({type:"blob"}, function updateCallback(metadata) {
         var msg = "progression : " + metadata.percent.toFixed(2) + " %";
@@ -113,7 +113,7 @@ class Download extends Component {
       return data.map((item,i) => {
         const todos = ['fav'];
         return (
-            <Icon className="download-icon-item" key={item.id} info={item} todos={todos}  refreshStore={() => {this.props.refreshStore()}}/>
+          <Icon className="download-icon-item" key={item.id} info={item} todos={todos}  refreshStore={() => {this.props.refreshStore()}}/>
         );
       });
     } else {
