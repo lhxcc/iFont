@@ -30,7 +30,7 @@ module.exports = {
     level: 'debug',
   },
   mysql: {
-    database: 'iFont',
+    database: 'fed',
     host: '10.82.3.136',
     username: 'civil',
     password: '123',
