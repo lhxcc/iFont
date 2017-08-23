@@ -8251,6 +8251,7 @@ function urlToPromise(url) {
       } else {
         resolve(data);
       }
+      debugger;
     });
   });
 }
@@ -8266,7 +8267,8 @@ var Download = function (_Component) {
     _this2.state = {
       list: [],
       show: false,
-      loading: false
+      loading: false,
+      downloadLink: ''
     };
     _this2.clearHandler = _this2.clearHandler.bind(_this2);
     _this2.startDownloadIcons = _this2.startDownloadIcons.bind(_this2);
@@ -8325,6 +8327,8 @@ var Download = function (_Component) {
   }, {
     key: 'startDownloadIcons',
     value: function startDownloadIcons() {
+      var _this5 = this;
+
       var list = this.state.list;
       if (list.length == 0) return false;
       var fetchData = new _FetchData2.default({
@@ -8335,22 +8339,30 @@ var Download = function (_Component) {
         }
       });
       fetchData.then(function (res) {
-        var zip = new _jszip2.default();
-        res.data.files.map(function (item) {
-          var filename = 'iconfont.' + item;
-          var folder = res.data.newDownloadDir;
-          var url = window.location.origin + '/download/' + res.data.newDownloadDir + '/' + filename;
-          zip.folder(folder).file(filename, urlToPromise(url), { binary: true });
+        var url = res.data.file;
+        _this5.setState({
+          downloadLink: url
         });
-        zip.generateAsync({ type: "blob" }, function updateCallback(metadata) {
-          var msg = "progression : " + metadata.percent.toFixed(2) + " %";
-          if (metadata.currentFile) {
-            msg += ", current file = " + metadata.currentFile;
-          }
-        }).then(function callback(blob) {
-          // see FileSaver.js
-          (0, _FileSaver2.default)(blob, "example.zip");
-        }, function (e) {});
+        _this5.refs.downloadLink.click();
+        // const zip = new JSZip();
+        // res.data.files.map(item => {
+        //   const filename =  `iconfont.${item}`;
+        //   const folder = res.data.newDownloadDir;
+        //   const url = window.location.origin + '/download/' + res.data.newDownloadDir+ '/' + filename;
+        //   item == 'html' && window.open(url);
+        //   zip.folder(folder).file(filename, urlToPromise(url), {binary:false});
+        // });
+        // zip.generateAsync({type:"blob"}, function updateCallback(metadata) {
+        //   var msg = "progression : " + metadata.percent.toFixed(2) + " %";
+        //   if(metadata.currentFile) {
+        //     msg += ", current file = " + metadata.currentFile;
+        //   }
+        // }).then(function callback(blob) {
+        //     // see FileSaver.js
+        //     saveAs(blob, "example.zip");
+        //   }, function (e) {
+        //
+        //   });
       });
     }
     /**
@@ -8361,14 +8373,14 @@ var Download = function (_Component) {
   }, {
     key: 'renderList',
     value: function renderList(data) {
-      var _this5 = this;
+      var _this6 = this;
 
       var _this = this;
       if (data.length > 0) {
         return data.map(function (item, i) {
           var todos = ['fav'];
           return _react2.default.createElement(_Icon2.default, { className: 'download-icon-item', key: item.id, info: item, todos: todos, refreshStore: function refreshStore() {
-              _this5.props.refreshStore();
+              _this6.props.refreshStore();
             } });
         });
       } else {
@@ -8394,14 +8406,14 @@ var Download = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this6 = this;
+      var _this7 = this;
 
       var iconList = this.renderList(this.state.list);
       return _react2.default.createElement(
         'div',
         { className: 'download-box ' + (this.state.show ? '' : 'hide') },
         _react2.default.createElement('div', { className: 'mask', onClick: function onClick() {
-            _this6.hide();
+            _this7.hide();
           } }),
         _react2.default.createElement(
           'div',
@@ -8410,7 +8422,7 @@ var Download = function (_Component) {
             'div',
             { className: 'download-header' },
             _react2.default.createElement('span', { className: 'top-back iconfont icon-right', onClick: function onClick() {
-                _this6.hide();
+                _this7.hide();
               } }),
             _react2.default.createElement(
               'span',
@@ -8441,6 +8453,7 @@ var Download = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: 'download-btn-group' },
+            _react2.default.createElement('a', { className: 'downloadLink', href: this.state.downloadLink, ref: 'downloadLink' }),
             _react2.default.createElement(
               'div',
               { onClick: this.startDownloadIcons, className: 'btn btn-normal download-btn ' + (this.state.list.length > 0 ? '' : 'btn-disabled') },
@@ -20713,4 +20726,4 @@ module.exports = __webpack_require__.p + "static/images/18bc265c.bg.png";
 
 /***/ })
 ]));
-//# sourceMappingURL=Manage.5df488c7.js.map
+//# sourceMappingURL=Manage.0660e2c7.js.map
