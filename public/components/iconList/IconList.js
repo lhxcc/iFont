@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import LimitedInfiniteScroll from 'react-limited-infinite-scroll'
+import { Pagination } from 'antd';
 import Loading from './../Loading';
 import FetchData from './../../base/scripts/FetchData.js';
 import Icon from './../icon/Icon';
@@ -14,21 +14,21 @@ export default class IconList extends Component {
     super(props);
     this.listCfg = {
       type: props.type,
-      pageStart: 0,
-      pageSize: 10
+      currentPage: 0,
+      pageSize: 1
     }
     this.state = {
       loading: true,
       list: [],
       total: 0
     }
-    this.nextPage = this.nextPage.bind(this);
+    this.onChange = this.onChange.bind(this);
   };
   componentWillMount() {
     this.initPage();
   };
-  nextPage() {
-    this.listCfg.pageStart += 1;
+  onChange(page) {
+    this.listCfg.currentPage = page-1;
     this.fetchDates();
   }
   renderList(data) {
@@ -41,11 +41,13 @@ export default class IconList extends Component {
     });
   }
   initPage() {
-    this.listCfg.pageStart = 0;
+    this.listCfg.currentPage = 0;
     this.fetchDates();
   }
   fetchDates() {
-    const {type, pageStart, pageSize} = this.listCfg;
+    const _this = this;
+    const {type, pageSize} = _this.listCfg;
+    const pageStart = _this.listCfg.currentPage;
     const fetchData = new FetchData({
       url: '/api/iconList',
       method: 'POST',
@@ -56,9 +58,9 @@ export default class IconList extends Component {
       }
     });
     fetchData.then((res) => {
-      this.setState({
+      _this.setState({
         loading: false,
-        list: this.state.list.concat(res.data.result),
+        list: res.data.result,
         total: res.data.total
       });
     });
@@ -77,16 +79,23 @@ export default class IconList extends Component {
           ? <div className="loadingBox">
               <Loading />
             </div>
-          : <LimitedInfiniteScroll
-              className="icon-list"
-              limit={5}
-              hasMore={total === undefined || iconList.length < total}
-              spinLoader={<div className="loader"><Loading /></div>}
-              mannualLoader={<span className="loadmore">Load More</span>}
-              loadNext={this.nextPage}
-            >
-              {iconList}
-            </LimitedInfiniteScroll>
+          : <div>
+              {this.state.list.length == 0
+              ? <div>暂时木有内容呀～～</div>
+              : <div>
+                  <div className="icon-list">
+                    {iconList}
+                  </div>
+                  { this.state.total > this.listCfg.pageSize &&
+                    <Pagination
+                      current={this.state.currentPage + 1}
+                      defaultPageSize={this.listCfg.pageSize}
+                      onChange={this.onChange} total={this.state.total}
+                  />
+                  }
+                </div>
+              }
+            </div>
         }
       </div>
     );

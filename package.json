@@ -37,6 +37,7 @@
     "moment": "^2.18.1",
     "mysql": "^2.13.0",
     "node-native-zip": "^1.1.0",
+    "rc-pagination": "^1.11.0",
     "react": "^15.6.1",
     "react-document-title": "^2.0.3",
     "react-dom": "^15.6.1",
