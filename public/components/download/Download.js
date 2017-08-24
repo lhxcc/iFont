@@ -121,9 +121,9 @@ class Download extends Component {
             </span>
           </div>
           <div className="download-icons-box">
-            <ul className="download-icons">
+            <div className="download-icons">
               {iconList}
-            </ul>
+            </div>
           </div>
           <div className="download-btn-group">
             <a className="downloadLink" href={this.state.downloadLink} ref="downloadLink"></a>

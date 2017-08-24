@@ -25,7 +25,6 @@ class LibPage extends Component{
     this.changeHandler = this.changeHandler.bind(this);
     this.refreshStore = this.refreshStore.bind(this);
     this.tabChangeHandler = this.tabChangeHandler.bind(this);
-    this.scrollHandler = this.scrollHandler.bind(this);
   }
   changeHandler(e) {
     this.setState({
@@ -48,27 +47,10 @@ class LibPage extends Component{
         break;
     }
   }
-  scrollHandler(e) {
-    const {
-      scrollTop,
-      scrollHeight,
-      offsetHeight
-    } = e.target;
-    if(scrollHeight - scrollTop - offsetHeight < 100) {
-      switch(Number(this.state.type)) {
-        case 1:
-          this.refs.iconlist1 && this.refs.iconlist1.nextPage();
-          break;
-        case 2:
-          this.refs.iconlist2 && this.refs.iconlist2.nextPage();
-          break;
-      }
-    }
-  }
   render() {
     return (
       <DocumentTitle title="图标库">
-        <div onScroll={this.scrollHandler.bind(this)} className="page-box">
+        <div className="page-box">
           <div className="page-main">
             <Header active="lib" ref="header" refreshStore={this.refreshStore} />
             <MainContent>

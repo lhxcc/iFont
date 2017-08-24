@@ -123,13 +123,13 @@ export default class Icon extends Component {
     const item = this.state;
     const todosHTML = this.renderTodos(this.props.todos || [], item);
     return (
-      <li className={`icon-item-box ${item.isFoved ? 'selected' : ''} ${this.props.className || ''}`}>
+      <div className={`icon-item-box ${item.isFoved ? 'selected' : ''} ${this.props.className || ''}`}>
         <div dangerouslySetInnerHTML={{__html: item.show_svg}} />
         <span className="icon-name">{item.name}</span>
         <div className="icon-cover">
           {todosHTML}
         </div>
-      </li>
+      </div>
     );
   };
 };

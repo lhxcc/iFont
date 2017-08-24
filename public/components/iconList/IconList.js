@@ -3,6 +3,7 @@
  */
 
 import React, {Component} from 'react';
+import LimitedInfiniteScroll from 'react-limited-infinite-scroll'
 import Loading from './../Loading';
 import FetchData from './../../base/scripts/FetchData.js';
 import Icon from './../icon/Icon';
@@ -14,12 +15,14 @@ export default class IconList extends Component {
     this.listCfg = {
       type: props.type,
       pageStart: 0,
-      pageSize: 100
+      pageSize: 10
     }
     this.state = {
       loading: true,
-      list: []
+      list: [],
+      total: 0
     }
+    this.nextPage = this.nextPage.bind(this);
   };
   componentWillMount() {
     this.initPage();
@@ -55,7 +58,8 @@ export default class IconList extends Component {
     fetchData.then((res) => {
       this.setState({
         loading: false,
-        list: res.data.result
+        list: this.state.list.concat(res.data.result),
+        total: res.data.total
       });
     });
   }
@@ -65,6 +69,7 @@ export default class IconList extends Component {
    * @returns {XML}
    */
   render() {
+    const total = this.state.total;
     const iconList = this.renderList(this.state.list);
     return (
       <div className="icon-list-box">
@@ -72,12 +77,16 @@ export default class IconList extends Component {
           ? <div className="loadingBox">
               <Loading />
             </div>
-          : <div>
-              <ul className="icon-list">
-                {iconList}
-              </ul>
-
-            </div>
+          : <LimitedInfiniteScroll
+              className="icon-list"
+              limit={5}
+              hasMore={total === undefined || iconList.length < total}
+              spinLoader={<div className="loader"><Loading /></div>}
+              mannualLoader={<span className="loadmore">Load More</span>}
+              loadNext={this.nextPage}
+            >
+              {iconList}
+            </LimitedInfiniteScroll>
         }
       </div>
     );
