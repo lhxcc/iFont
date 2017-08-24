@@ -70,7 +70,7 @@ export default class IconList extends Component {
       <div className="icon-list-box">
         {this.state.loading
           ? <div className="loadingBox">
-              <Loading/>
+              <Loading />
             </div>
           : <div>
               <ul className="icon-list">

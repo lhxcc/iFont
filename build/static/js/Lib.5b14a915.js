@@ -1058,11 +1058,17 @@ var Download = function (_Component) {
 
       var list = this.state.list;
       if (list.length == 0) return false;
+      var idList = [];
+      list.map(function (item) {
+        idList.push({
+          id: item.id
+        });
+      });
       var fetchData = new _FetchData2.default({
         url: '/api/font/download',
         method: 'POST',
         data: {
-          downList: JSON.stringify(list)
+          idList: JSON.stringify(idList)
         }
       });
       fetchData.then(function (res) {
@@ -6231,4 +6237,4 @@ module.exports = __webpack_require__.p + "static/images/18bc265c.bg.png";
 
 /***/ })
 ]));
-//# sourceMappingURL=Lib.4f9d9dca.js.map
+//# sourceMappingURL=Lib.5b14a915.js.map

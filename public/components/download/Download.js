@@ -52,11 +52,17 @@ class Download extends Component {
   startDownloadIcons() {
     const list = this.state.list;
     if(list.length == 0) return false;
+    const idList = [];
+    list.map(item => {
+      idList.push({
+        id: item.id
+      })
+    })
     const fetchData = new FetchData({
       url: '/api/font/download',
       method: 'POST',
       data: {
-        downList: JSON.stringify(list)
+        idList: JSON.stringify(idList)
       }
     });
     fetchData.then((res) => {
