@@ -1012,7 +1012,7 @@ var Header = function (_Component) {
                   { className: 'nav-item ' + (this.state.active === 'lib' ? 'current' : '') },
                   _react2.default.createElement(
                     _reactRouterDom.Link,
-                    { to: '/lib' },
+                    { to: '/lib/1' },
                     '\u56FE\u6807\u5E93'
                   )
                 ),
@@ -1398,4 +1398,4 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABK
 /***/ })
 
 });
-//# sourceMappingURL=Home.01c44a5b.js.map
+//# sourceMappingURL=Home.ea7d2692.js.map

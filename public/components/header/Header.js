@@ -53,7 +53,7 @@ class Header extends Component {
                   <Link to='/'>首页</Link>
                 </li>
                 <li className={`nav-item ${this.state.active === 'lib' ? 'current' : ''}`}>
-                  <Link to='/lib'>图标库</Link>
+                  <Link to='/lib/1'>图标库</Link>
                 </li>
                 <li className={`hide nav-item ${this.state.active === 'manage' ? 'current' : ''}`}>
                   <Link to='/manage'>项目管理</Link>

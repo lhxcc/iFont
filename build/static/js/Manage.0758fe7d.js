@@ -1002,7 +1002,7 @@ var Header = function (_Component) {
                   { className: 'nav-item ' + (this.state.active === 'lib' ? 'current' : '') },
                   _react2.default.createElement(
                     _reactRouterDom.Link,
-                    { to: '/lib' },
+                    { to: '/lib/1' },
                     '\u56FE\u6807\u5E93'
                   )
                 ),
@@ -1374,4 +1374,4 @@ module.exports = __webpack_require__.p + "static/images/18bc265c.bg.png";
 /***/ })
 
 });
-//# sourceMappingURL=Manage.8a4a58f0.js.map
+//# sourceMappingURL=Manage.0758fe7d.js.map

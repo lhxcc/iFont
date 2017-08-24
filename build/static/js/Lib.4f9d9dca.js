@@ -45,6 +45,10 @@ __webpack_require__(271);
 
 __webpack_require__(391);
 
+var _createBrowserHistory = __webpack_require__(64);
+
+var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -56,21 +60,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 
+var history = (0, _createBrowserHistory2.default)();
+
 var TabPane = _tabs2.default.TabPane;
 
 var LibPage = function (_Component) {
   _inherits(LibPage, _Component);
 
-  function LibPage() {
+  function LibPage(props) {
     _classCallCheck(this, LibPage);
 
-    var _this = _possibleConstructorReturn(this, (LibPage.__proto__ || Object.getPrototypeOf(LibPage)).call(this));
+    var _this = _possibleConstructorReturn(this, (LibPage.__proto__ || Object.getPrototypeOf(LibPage)).call(this, props));
 
     _this.state = {
-      fontName: ''
+      fontName: '',
+      type: props.match.params.type
     };
     _this.changeHandler = _this.changeHandler.bind(_this);
     _this.refreshStore = _this.refreshStore.bind(_this);
+    _this.tabChangeHandler = _this.tabChangeHandler.bind(_this);
+    _this.scrollHandler = _this.scrollHandler.bind(_this);
     return _this;
   }
 
@@ -87,6 +96,40 @@ var LibPage = function (_Component) {
       this.refs.header.refreshHeadIcon();
     }
   }, {
+    key: 'tabChangeHandler',
+    value: function tabChangeHandler(key) {
+      history.replace({
+        pathname: '/lib/' + key
+      });
+      switch (Number(key)) {
+        case 1:
+          this.refs.iconlist1 && this.refs.iconlist1.initPage();
+          break;
+        case 2:
+          this.refs.iconlist2 && this.refs.iconlist2.initPage();
+          break;
+      }
+    }
+  }, {
+    key: 'scrollHandler',
+    value: function scrollHandler(e) {
+      var _e$target = e.target,
+          scrollTop = _e$target.scrollTop,
+          scrollHeight = _e$target.scrollHeight,
+          offsetHeight = _e$target.offsetHeight;
+
+      if (scrollHeight - scrollTop - offsetHeight < 100) {
+        switch (Number(this.state.type)) {
+          case 1:
+            this.refs.iconlist1 && this.refs.iconlist1.nextPage();
+            break;
+          case 2:
+            this.refs.iconlist2 && this.refs.iconlist2.nextPage();
+            break;
+        }
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -94,7 +137,7 @@ var LibPage = function (_Component) {
         { title: '\u56FE\u6807\u5E93' },
         _react2.default.createElement(
           'div',
-          { className: 'page-box' },
+          { onScroll: this.scrollHandler.bind(this), className: 'page-box' },
           _react2.default.createElement(
             'div',
             { className: 'page-main' },
@@ -104,14 +147,14 @@ var LibPage = function (_Component) {
               null,
               _react2.default.createElement(
                 _tabs2.default,
-                { defaultActiveKey: '1', animated: false },
+                { defaultActiveKey: this.state.type, animated: false, onChange: this.tabChangeHandler },
                 _react2.default.createElement(
                   TabPane,
                   { tab: '\u5B98\u65B9\u56FE\u6807\u5E93', key: '1' },
                   _react2.default.createElement(
                     'div',
                     { className: 'lib-main-box' },
-                    _react2.default.createElement(_IconList2.default, { type: '1', refreshStore: this.refreshStore })
+                    _react2.default.createElement(_IconList2.default, { ref: 'iconlist1', type: '1', refreshStore: this.refreshStore })
                   )
                 ),
                 _react2.default.createElement(
@@ -120,7 +163,7 @@ var LibPage = function (_Component) {
                   _react2.default.createElement(
                     'div',
                     { className: 'lib-main-box' },
-                    _react2.default.createElement(_IconList2.default, { type: '2', refreshStore: this.refreshStore })
+                    _react2.default.createElement(_IconList2.default, { ref: 'iconlist2', type: '2', refreshStore: this.refreshStore })
                   )
                 )
               )
@@ -1316,7 +1359,7 @@ var Header = function (_Component) {
                   { className: 'nav-item ' + (this.state.active === 'lib' ? 'current' : '') },
                   _react2.default.createElement(
                     _reactRouterDom.Link,
-                    { to: '/lib' },
+                    { to: '/lib/1' },
                     '\u56FE\u6807\u5E93'
                   )
                 ),
@@ -3409,11 +3452,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var IconList = function (_Component) {
   _inherits(IconList, _Component);
 
-  function IconList() {
+  function IconList(props) {
     _classCallCheck(this, IconList);
 
-    var _this2 = _possibleConstructorReturn(this, (IconList.__proto__ || Object.getPrototypeOf(IconList)).call(this));
+    var _this2 = _possibleConstructorReturn(this, (IconList.__proto__ || Object.getPrototypeOf(IconList)).call(this, props));
 
+    _this2.listCfg = {
+      type: props.type,
+      pageStart: 0,
+      pageSize: 100
+    };
     _this2.state = {
       loading: true,
       list: []
@@ -3424,11 +3472,14 @@ var IconList = function (_Component) {
   _createClass(IconList, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      this.fetchDates();
+      this.initPage();
     }
   }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {}
+    key: 'nextPage',
+    value: function nextPage() {
+      this.listCfg.pageStart += 1;
+      this.fetchDates();
+    }
   }, {
     key: 'renderList',
     value: function renderList(data) {
@@ -3443,17 +3494,28 @@ var IconList = function (_Component) {
       });
     }
   }, {
+    key: 'initPage',
+    value: function initPage() {
+      this.listCfg.pageStart = 0;
+      this.fetchDates();
+    }
+  }, {
     key: 'fetchDates',
     value: function fetchDates() {
       var _this4 = this;
+
+      var _listCfg = this.listCfg,
+          type = _listCfg.type,
+          pageStart = _listCfg.pageStart,
+          pageSize = _listCfg.pageSize;
 
       var fetchData = new _FetchData2.default({
         url: '/api/iconList',
         method: 'POST',
         data: {
-          type: this.props.type,
-          offset: 0,
-          limit: 100
+          type: type,
+          pageStart: pageStart,
+          pageSize: pageSize
         }
       });
       fetchData.then(function (res) {
@@ -3467,7 +3529,7 @@ var IconList = function (_Component) {
     /**
      * 组件生命周期：正在渲染
      * @returns {XML}
-       */
+     */
 
   }, {
     key: 'render',
@@ -4415,7 +4477,7 @@ exports = module.exports = __webpack_require__(251)(undefined);
 
 
 // module
-exports.push([module.i, "body {\n  background: url(" + __webpack_require__(408) + ") #000 !important;\n}\n#page {\n  position: relative;\n}\n#page .page-main {\n  min-height: 100%;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  padding-bottom: 60px;\n}\n#page .page-main .ant-tabs {\n  margin-top: 15px;\n  color: rgba(255, 255, 255, 0.5);\n  width: 100%;\n}\n#page .page-main .ant-tabs-bar {\n  border-bottom: 0;\n  margin-bottom: 0;\n}\n#page .page-main .ant-tabs-ink-bar {\n  background: #f7ab00;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab {\n  padding: 15px 20px;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab:hover {\n  color: #fff;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab-active {\n  color: #fff;\n}\n#page .lib-main-box {\n  min-height: 800px;\n  color: #333;\n  background: #fcfcfc;\n}\n", ""]);
+exports.push([module.i, "body {\n  background: url(" + __webpack_require__(408) + ") #000 !important;\n}\n#page {\n  position: relative;\n}\n#page .page-box {\n  overflow: auto;\n}\n#page .page-main {\n  min-height: 100%;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  padding-bottom: 60px;\n}\n#page .page-main .ant-tabs {\n  margin-top: 15px;\n  color: rgba(255, 255, 255, 0.5);\n  width: 100%;\n}\n#page .page-main .ant-tabs-bar {\n  border-bottom: 0;\n  margin-bottom: 0;\n}\n#page .page-main .ant-tabs-ink-bar {\n  background: #f7ab00;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab {\n  padding: 15px 20px;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab:hover {\n  color: #fff;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab-active {\n  color: #fff;\n}\n#page .lib-main-box {\n  min-height: 800px;\n  color: #333;\n  background: #fcfcfc;\n}\n", ""]);
 
 // exports
 
@@ -6169,4 +6231,4 @@ module.exports = __webpack_require__.p + "static/images/18bc265c.bg.png";
 
 /***/ })
 ]));
-//# sourceMappingURL=Lib.70fdfe01.js.map
+//# sourceMappingURL=Lib.4f9d9dca.js.map

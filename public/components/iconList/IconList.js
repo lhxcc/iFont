@@ -9,17 +9,25 @@ import Icon from './../icon/Icon';
 import './IconList.less';
 
 export default class IconList extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.listCfg = {
+      type: props.type,
+      pageStart: 0,
+      pageSize: 100
+    }
     this.state = {
       loading: true,
       list: []
     }
   };
   componentWillMount() {
-    this.fetchDates();
+    this.initPage();
   };
-  componentDidMount() {};
+  nextPage() {
+    this.listCfg.pageStart += 1;
+    this.fetchDates();
+  }
   renderList(data) {
     const _this = this;
     return data.map((item,i) => {
@@ -29,14 +37,19 @@ export default class IconList extends Component {
       );
     });
   }
+  initPage() {
+    this.listCfg.pageStart = 0;
+    this.fetchDates();
+  }
   fetchDates() {
+    const {type, pageStart, pageSize} = this.listCfg;
     const fetchData = new FetchData({
       url: '/api/iconList',
       method: 'POST',
       data: {
-        type: this.props.type,
-        offset: 0,
-        limit: 100
+        type,
+        pageStart,
+        pageSize
       }
     });
     fetchData.then((res) => {
@@ -50,7 +63,7 @@ export default class IconList extends Component {
   /**
    * 组件生命周期：正在渲染
    * @returns {XML}
-     */
+   */
   render() {
     const iconList = this.renderList(this.state.list);
     return (
