@@ -31,9 +31,9 @@ module.exports = {
   // 图片服务器配置
   mysql: {
     database: 'fed',
-    host: '127.0.0.1',
-    username: 'root',
-    password: 'yGF123456&',
+    host: '10.82.3.136',
+    username: 'civil',
+    password: '123',
     port: 3306
   },
   fileCfg: {

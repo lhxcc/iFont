@@ -9,27 +9,27 @@ import FetchData from './../../base/scripts/FetchData.js';
 import Icon from './../icon/Icon';
 import './IconList.less';
 
-export default class IconList extends Component {
+class IconList extends Component {
   constructor(props) {
     super(props);
     this.listCfg = {
       type: props.type,
-      currentPage: 0,
-      pageSize: 1
+      pageSize: 80
     }
     this.state = {
       loading: true,
+      currentPage: 1,
       list: [],
       total: 0
     }
     this.onChange = this.onChange.bind(this);
+    this.showTotal = this.showTotal.bind(this);
   };
   componentWillMount() {
     this.initPage();
   };
   onChange(page) {
-    this.listCfg.currentPage = page-1;
-    this.fetchDates();
+    this.fetchDates(page);
   }
   renderList(data) {
     const _this = this;
@@ -41,13 +41,12 @@ export default class IconList extends Component {
     });
   }
   initPage() {
-    this.listCfg.currentPage = 0;
-    this.fetchDates();
+    this.fetchDates(1);
   }
-  fetchDates() {
+  fetchDates(page) {
     const _this = this;
     const {type, pageSize} = _this.listCfg;
-    const pageStart = _this.listCfg.currentPage;
+    const pageStart = page -1;
     const fetchData = new FetchData({
       url: '/api/iconList',
       method: 'POST',
@@ -60,12 +59,15 @@ export default class IconList extends Component {
     fetchData.then((res) => {
       _this.setState({
         loading: false,
+        currentPage: page,
         list: res.data.result,
         total: res.data.total
       });
     });
   }
-
+  showTotal(total) {
+    return `共 ${total} icons`;
+  }
   /**
    * 组件生命周期：正在渲染
    * @returns {XML}
@@ -81,17 +83,22 @@ export default class IconList extends Component {
             </div>
           : <div>
               {this.state.list.length == 0
-              ? <div>暂时木有内容呀～～</div>
+              ? <div className="list-empty">
+                  <div className="message">暂时木有内容呀～～</div>
+                </div>
               : <div>
                   <div className="icon-list">
                     {iconList}
                   </div>
                   { this.state.total > this.listCfg.pageSize &&
                     <Pagination
-                      current={this.state.currentPage + 1}
-                      defaultPageSize={this.listCfg.pageSize}
-                      onChange={this.onChange} total={this.state.total}
-                  />
+                      size="small"
+                      showTotal={this.showTotal}
+                      current={this.state.currentPage}
+                      pageSize={this.listCfg.pageSize}
+                      onChange={this.onChange}
+                      total={this.state.total}
+                    />
                   }
                 </div>
               }
@@ -101,3 +108,4 @@ export default class IconList extends Component {
     );
   };
 };
+export default IconList;

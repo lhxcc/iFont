@@ -1,6 +1,3 @@
-/**
- * Created by yaoguofeng on 2017/02/03.
- */
 import React,{Component} from 'react';
 import DocumentTitle from 'react-document-title';
 import { Tabs } from 'antd';
@@ -19,17 +16,10 @@ class LibPage extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      fontName: '',
-      type: props.match.params.type
+      type: props.match.params.type || '1'
     };
-    this.changeHandler = this.changeHandler.bind(this);
     this.refreshStore = this.refreshStore.bind(this);
     this.tabChangeHandler = this.tabChangeHandler.bind(this);
-  }
-  changeHandler(e) {
-    this.setState({
-      fontName: e.target.value
-    });
   }
   refreshStore() {
     this.refs.header.refreshHeadIcon();

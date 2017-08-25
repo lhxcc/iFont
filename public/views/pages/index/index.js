@@ -42,6 +42,7 @@ class App extends Component {
         <Router history={history}>
           <div className="root">
             <Route exact path="/" component={Home} />
+            <Route exact path="/lib" component={Lib} />
             <Route exact path="/lib/:type" component={Lib} />
             <Route exact path="/manage" component={Manage} />
           </div>
