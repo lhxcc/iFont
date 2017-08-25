@@ -12,15 +12,14 @@ import './IconList.less';
 class IconList extends Component {
   constructor(props) {
     super(props);
-    this.listCfg = {
-      type: props.type,
-      pageSize: 80
-    }
     this.state = {
+      type: props.type || 1,
       loading: true,
       currentPage: 1,
+      query: props.query || '',
       list: [],
-      total: 0
+      total: 0,
+      pageSize: 80
     }
     this.onChange = this.onChange.bind(this);
     this.showTotal = this.showTotal.bind(this);
@@ -30,6 +29,16 @@ class IconList extends Component {
   };
   onChange(page) {
     this.fetchDates(page);
+  }
+  componentWillReceiveProps(nextProps) {
+    const oldQuery = this.props.query;
+    const newQuery = nextProps.query;
+    if(oldQuery !== newQuery) {
+      this.setState({
+        query: newQuery
+      });
+      this.fetchDates(this.state.currentPage);
+    }
   }
   renderList(data) {
     const _this = this;
@@ -45,7 +54,7 @@ class IconList extends Component {
   }
   fetchDates(page) {
     const _this = this;
-    const {type, pageSize} = _this.listCfg;
+    const {type, query, pageSize} = _this.state;
     const pageStart = page -1;
     const fetchData = new FetchData({
       url: '/api/iconList',
@@ -53,7 +62,8 @@ class IconList extends Component {
       data: {
         type,
         pageStart,
-        pageSize
+        pageSize,
+        query
       }
     });
     fetchData.then((res) => {
@@ -90,12 +100,12 @@ class IconList extends Component {
                   <div className="icon-list">
                     {iconList}
                   </div>
-                  { this.state.total > this.listCfg.pageSize &&
+                  { this.state.total > this.state.pageSize &&
                     <Pagination
                       size="small"
                       showTotal={this.showTotal}
                       current={this.state.currentPage}
-                      pageSize={this.listCfg.pageSize}
+                      pageSize={this.state.pageSize}
                       onChange={this.onChange}
                       total={this.state.total}
                     />

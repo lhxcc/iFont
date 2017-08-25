@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { Input } from 'antd';
 import store from 'store';
 import MainContent from './../mainContent/MainContent';
 import Download from './../../components/download/Download';
 import './Header.less';
+const Search = Input.Search;
 
 class Header extends Component {
   constructor(props) {
@@ -11,11 +13,18 @@ class Header extends Component {
     this.state = {
       active: this.props.active,
       refreshing: false,
-      count: 0
+      count: 0,
+      query: this.props.query
     };
+    this.changeHandler = this.changeHandler.bind(this);
   }
   componentWillMount() {
     this.caulFavIconCount();
+  }
+  changeHandler(e) {
+    this.setState({
+      query: e.target.value
+    });
   }
   /**
    * 计算被收藏要下载的icon数
@@ -53,7 +62,7 @@ class Header extends Component {
                   <Link to='/'>首页</Link>
                 </li>
                 <li className={`nav-item ${this.state.active === 'lib' ? 'current' : ''}`}>
-                  <Link to='/lib'>图标库</Link>
+                  <Link to={`/lib/${encodeURIComponent(' ')}/1`}>图标库</Link>
                 </li>
                 <li className={`hide nav-item ${this.state.active === 'manage' ? 'current' : ''}`}>
                   <Link to='/manage'>项目管理</Link>
@@ -62,6 +71,19 @@ class Header extends Component {
             </nav>
             <div className="quick-menu">
               <ul className="clearfix">
+                {!this.props.hideSearch &&
+                  <li>
+                    <Search
+                      placeholder="请输入搜素内容"
+                      value={this.state.query}
+                      onChange={this.changeHandler}
+                      style={{ width: 200 }}
+                      onSearch={value => {
+                        this.props.onSearch(value);
+                      }}
+                    />
+                  </li>
+                }
                 <li onClick={() => {this.refs.download.show()}}>
                   <span className="icon-box icon-fav">
                     <i className="iconfont icon-download" />

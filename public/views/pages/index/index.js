@@ -20,11 +20,13 @@ const Home = props => (
     {HomePage => <HomePage {...props} />}
   </Bundle>
 );
-const Lib = props => (
-  <Bundle load={LibPageContainer}>
-    {LibPage => <LibPage {...props} />}
-  </Bundle>
-);
+const Lib = props => {
+  return(
+    <Bundle load={LibPageContainer}>
+      {LibPage => <LibPage {...props} />}
+    </Bundle>
+  )
+};
 const Manage = props => (
   <Bundle load={ManagePageContainer}>
     {ManagePage => <ManagePage {...props} />}
@@ -42,8 +44,7 @@ class App extends Component {
         <Router history={history}>
           <div className="root">
             <Route exact path="/" component={Home} />
-            <Route exact path="/lib" component={Lib} />
-            <Route exact path="/lib/:type" component={Lib} />
+            <Route exact path="/lib/:query/:type" component={Lib} />
             <Route exact path="/manage" component={Manage} />
           </div>
         </Router>
