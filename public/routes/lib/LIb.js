@@ -26,9 +26,12 @@ class LibPage extends Component{
   componentWillReceiveProps(nextProps) {
     const oldQuery = this.props.match.params.query;
     const newQuery = nextProps.match.params.query;
-    if(oldQuery !== newQuery) {
+    const oldType = this.props.match.params.type;
+    const newType = nextProps.match.params.type;
+    if(oldQuery !== newQuery || oldType !== newType) {
       this.setState({
-        query: newQuery || ''
+        query: newQuery || '',
+        type: newType || '1'
       });
     }
   }
@@ -115,7 +118,7 @@ class LibPage extends Component{
                   </div>
                 </div>
                 :
-                <Tabs defaultActiveKey={this.state.type} animated={false} onChange={this.tabChangeHandler}>
+                <Tabs activeKey={this.state.type} animated={false} onChange={this.tabChangeHandler}>
                   <TabPane tab="官方图标库" key="1">
                     <div className="lib-main-box">
                       <IconList

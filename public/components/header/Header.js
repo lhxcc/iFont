@@ -21,6 +21,15 @@ class Header extends Component {
   componentWillMount() {
     this.caulFavIconCount();
   }
+  componentWillReceiveProps(nextProps) {
+    const oldQuery = this.props.query;
+    const newQuery = nextProps.query;
+    if(oldQuery !== newQuery ) {
+      this.setState({
+        query: newQuery || ''
+      });
+    }
+  }
   changeHandler(e) {
     this.setState({
       query: e.target.value || ' '
