@@ -14,7 +14,7 @@ class Header extends Component {
       active: this.props.active,
       refreshing: false,
       count: 0,
-      query: this.props.query
+      query: this.props.query || ' '
     };
     this.changeHandler = this.changeHandler.bind(this);
   }
@@ -23,7 +23,7 @@ class Header extends Component {
   }
   changeHandler(e) {
     this.setState({
-      query: e.target.value
+      query: e.target.value || ' '
     });
   }
   /**
@@ -74,10 +74,9 @@ class Header extends Component {
                 {!this.props.hideSearch &&
                   <li>
                     <Search
+                      value={this.state.query.trim()}
                       placeholder="请输入搜素内容"
-                      value={this.state.query}
                       onChange={this.changeHandler}
-                      style={{ width: 200 }}
                       onSearch={value => {
                         this.props.onSearch(value);
                       }}

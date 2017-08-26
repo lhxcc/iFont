@@ -20,15 +20,12 @@ class IconList extends Component {
       list: [],
       total: 0,
       pageSize: 80
-    }
+    };
     this.onChange = this.onChange.bind(this);
     this.showTotal = this.showTotal.bind(this);
-  };
+  }
   componentWillMount() {
     this.initPage();
-  };
-  onChange(page) {
-    this.fetchDates(page);
   }
   componentWillReceiveProps(nextProps) {
     const oldQuery = this.props.query;
@@ -37,24 +34,60 @@ class IconList extends Component {
       this.setState({
         query: newQuery
       });
-      this.fetchDates(this.state.currentPage);
+      this.fetchDates(this.state.currentPage, newQuery);
     }
   }
+  /**
+   * 初始化列表
+   */
+  initPage() {
+    this.fetchDates(1, this.state.query);
+  }
+
+  /**
+   * 分页改变事件
+   * @param page
+   */
+  onChange(page) {
+    this.fetchDates(page, this.state.query);
+  }
+
+  /**
+   * 渲染列表
+   * @param data 列表数据
+   */
   renderList(data) {
-    const _this = this;
-    return data.map((item,i) => {
+    return data.map((item, i) => {
       const todos = ['fav'];
       return (
-        <Icon key={item.id} info={item} todos={todos} refreshStore={() => {this.props.refreshStore()}} />
+        <Icon
+          key={item.id}
+          info={item}
+          ref={`icon_${i}`}
+          todos={todos}
+          refreshStore={() => {this.props.refreshStore()}}
+        />
       );
     });
   }
-  initPage() {
-    this.fetchDates(1);
+
+  /**
+   * 缓存变化刷新列表信息
+   */
+  refreshStoreIcon() {
+    const len = this.state.list.length;
+    for(let i = 0; i < len ; i++){
+      const iconI = `icon_${i}`;
+      this.refs[iconI].refresh();
+    }
   }
-  fetchDates(page) {
+  /**
+   * 获取列表信息
+   * @param page
+   */
+  fetchDates(page, query) {
     const _this = this;
-    const {type, query, pageSize} = _this.state;
+    const {type, pageSize} = _this.state;
     const pageStart = page -1;
     const fetchData = new FetchData({
       url: '/api/iconList',
@@ -73,8 +106,15 @@ class IconList extends Component {
         list: res.data.result,
         total: res.data.total
       });
+      this.props.refreshTotal && this.props.refreshTotal(res.data.total);
     });
   }
+
+  /**
+   * f分页端显示总数
+   * @param total 总数
+   * @returns {string} 显示内容
+   */
   showTotal(total) {
     return `共 ${total} icons`;
   }
@@ -83,7 +123,6 @@ class IconList extends Component {
    * @returns {XML}
    */
   render() {
-    const total = this.state.total;
     const iconList = this.renderList(this.state.list);
     return (
       <div className="icon-list-box">

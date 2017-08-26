@@ -42,6 +42,18 @@ export default class Icon extends Component {
       isFoved
     });
   }
+  refresh() {
+    const ifontFavIcons = store.get("_ifont_fav_icons") || [];
+    let isFoved = false;
+    ifontFavIcons.map(item => {
+      if(item.id == this.state.id){
+        isFoved = true;
+      }
+    });
+    this.setState({
+      isFoved,
+    });
+  }
   /**
    * 渲染icon元素
    * @param  {array} todos  icon可操作的事件'fav','del'等
@@ -109,9 +121,7 @@ export default class Icon extends Component {
     if (newArray.length > 0) {
       store.set("_ifont_fav_icons", newArray);
     }
-    this.setState({
-      isFoved: !this.state.isFoved
-    });
+    this.refresh();
     // 刷新头部数据
     this.props.refreshStore && this.props.refreshStore();
   }

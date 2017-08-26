@@ -1,544 +1,4 @@
-webpackJsonp([0],Array(247).concat([
-/* 247 */
-/***/ (function(module, exports) {
-
-
-/**
- * When source maps are enabled, `style-loader` uses a link element with a data-uri to
- * embed the css on the page. This breaks all relative urls because now they are relative to a
- * bundle instead of the current page.
- *
- * One solution is to only use full urls, but that may be impossible.
- *
- * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
- *
- * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
- *
- */
-
-module.exports = function (css) {
-  // get current location
-  var location = typeof window !== "undefined" && window.location;
-
-  if (!location) {
-    throw new Error("fixUrls requires window.location");
-  }
-
-	// blank or null?
-	if (!css || typeof css !== "string") {
-	  return css;
-  }
-
-  var baseUrl = location.protocol + "//" + location.host;
-  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
-
-	// convert each url(...)
-	/*
-	This regular expression is just a way to recursively match brackets within
-	a string.
-
-	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
-	   (  = Start a capturing group
-	     (?:  = Start a non-capturing group
-	         [^)(]  = Match anything that isn't a parentheses
-	         |  = OR
-	         \(  = Match a start parentheses
-	             (?:  = Start another non-capturing groups
-	                 [^)(]+  = Match anything that isn't a parentheses
-	                 |  = OR
-	                 \(  = Match a start parentheses
-	                     [^)(]*  = Match anything that isn't a parentheses
-	                 \)  = Match a end parentheses
-	             )  = End Group
-              *\) = Match anything and then a close parens
-          )  = Close non-capturing group
-          *  = Match anything
-       )  = Close capturing group
-	 \)  = Match a close parens
-
-	 /gi  = Get all matches, not the first.  Be case insensitive.
-	 */
-	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
-		// strip quotes (if they exist)
-		var unquotedOrigUrl = origUrl
-			.trim()
-			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
-			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
-
-		// already a full url? no change
-		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
-		  return fullMatch;
-		}
-
-		// convert the url to a full url
-		var newUrl;
-
-		if (unquotedOrigUrl.indexOf("//") === 0) {
-		  	//TODO: should we add protocol?
-			newUrl = unquotedOrigUrl;
-		} else if (unquotedOrigUrl.indexOf("/") === 0) {
-			// path should be relative to the base url
-			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
-		} else {
-			// path should be relative to current directory
-			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
-		}
-
-		// send back the fixed url(...)
-		return "url(" + JSON.stringify(newUrl) + ")";
-	});
-
-	// send back the fixed css
-	return fixedCss;
-};
-
-
-/***/ }),
-/* 248 */,
-/* 249 */,
-/* 250 */,
-/* 251 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
-
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
-
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
-
-	return [content].join('\n');
-}
-
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
-}
-
-
-/***/ }),
-/* 252 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-
-var stylesInDom = {};
-
-var	memoize = function (fn) {
-	var memo;
-
-	return function () {
-		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-		return memo;
-	};
-};
-
-var isOldIE = memoize(function () {
-	// Test for IE <= 9 as proposed by Browserhacks
-	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
-	// Tests for existence of standard globals is to allow style-loader
-	// to operate correctly into non-standard environments
-	// @see https://github.com/webpack-contrib/style-loader/issues/177
-	return window && document && document.all && !window.atob;
-});
-
-var getElement = (function (fn) {
-	var memo = {};
-
-	return function(selector) {
-		if (typeof memo[selector] === "undefined") {
-			memo[selector] = fn.call(this, selector);
-		}
-
-		return memo[selector]
-	};
-})(function (target) {
-	return document.querySelector(target)
-});
-
-var singleton = null;
-var	singletonCounter = 0;
-var	stylesInsertedAtTop = [];
-
-var	fixUrls = __webpack_require__(247);
-
-module.exports = function(list, options) {
-	if (typeof DEBUG !== "undefined" && DEBUG) {
-		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-
-	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
-
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (!options.singleton) options.singleton = isOldIE();
-
-	// By default, add <style> tags to the <head> element
-	if (!options.insertInto) options.insertInto = "head";
-
-	// By default, add <style> tags to the bottom of the target
-	if (!options.insertAt) options.insertAt = "bottom";
-
-	var styles = listToStyles(list, options);
-
-	addStylesToDom(styles, options);
-
-	return function update (newList) {
-		var mayRemove = [];
-
-		for (var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-
-		if(newList) {
-			var newStyles = listToStyles(newList, options);
-			addStylesToDom(newStyles, options);
-		}
-
-		for (var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-
-			if(domStyle.refs === 0) {
-				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
-
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-};
-
-function addStylesToDom (styles, options) {
-	for (var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-
-		if(domStyle) {
-			domStyle.refs++;
-
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles (list, options) {
-	var styles = [];
-	var newStyles = {};
-
-	for (var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = options.base ? item[0] + options.base : item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-
-		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
-		else newStyles[id].parts.push(part);
-	}
-
-	return styles;
-}
-
-function insertStyleElement (options, style) {
-	var target = getElement(options.insertInto)
-
-	if (!target) {
-		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
-	}
-
-	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
-
-	if (options.insertAt === "top") {
-		if (!lastStyleElementInsertedAtTop) {
-			target.insertBefore(style, target.firstChild);
-		} else if (lastStyleElementInsertedAtTop.nextSibling) {
-			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			target.appendChild(style);
-		}
-		stylesInsertedAtTop.push(style);
-	} else if (options.insertAt === "bottom") {
-		target.appendChild(style);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
-}
-
-function removeStyleElement (style) {
-	if (style.parentNode === null) return false;
-	style.parentNode.removeChild(style);
-
-	var idx = stylesInsertedAtTop.indexOf(style);
-	if(idx >= 0) {
-		stylesInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement (options) {
-	var style = document.createElement("style");
-
-	options.attrs.type = "text/css";
-
-	addAttrs(style, options.attrs);
-	insertStyleElement(options, style);
-
-	return style;
-}
-
-function createLinkElement (options) {
-	var link = document.createElement("link");
-
-	options.attrs.type = "text/css";
-	options.attrs.rel = "stylesheet";
-
-	addAttrs(link, options.attrs);
-	insertStyleElement(options, link);
-
-	return link;
-}
-
-function addAttrs (el, attrs) {
-	Object.keys(attrs).forEach(function (key) {
-		el.setAttribute(key, attrs[key]);
-	});
-}
-
-function addStyle (obj, options) {
-	var style, update, remove, result;
-
-	// If a transform function was defined, run it on the css
-	if (options.transform && obj.css) {
-	    result = options.transform(obj.css);
-
-	    if (result) {
-	    	// If transform returns a value, use that instead of the original css.
-	    	// This allows running runtime transformations on the css.
-	    	obj.css = result;
-	    } else {
-	    	// If the transform function returns a falsy value, don't add this css.
-	    	// This allows conditional loading of css
-	    	return function() {
-	    		// noop
-	    	};
-	    }
-	}
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-
-		style = singleton || (singleton = createStyleElement(options));
-
-		update = applyToSingletonTag.bind(null, style, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
-
-	} else if (
-		obj.sourceMap &&
-		typeof URL === "function" &&
-		typeof URL.createObjectURL === "function" &&
-		typeof URL.revokeObjectURL === "function" &&
-		typeof Blob === "function" &&
-		typeof btoa === "function"
-	) {
-		style = createLinkElement(options);
-		update = updateLink.bind(null, style, options);
-		remove = function () {
-			removeStyleElement(style);
-
-			if(style.href) URL.revokeObjectURL(style.href);
-		};
-	} else {
-		style = createStyleElement(options);
-		update = applyToTag.bind(null, style);
-		remove = function () {
-			removeStyleElement(style);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle (newObj) {
-		if (newObj) {
-			if (
-				newObj.css === obj.css &&
-				newObj.media === obj.media &&
-				newObj.sourceMap === obj.sourceMap
-			) {
-				return;
-			}
-
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag (style, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (style.styleSheet) {
-		style.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = style.childNodes;
-
-		if (childNodes[index]) style.removeChild(childNodes[index]);
-
-		if (childNodes.length) {
-			style.insertBefore(cssNode, childNodes[index]);
-		} else {
-			style.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag (style, obj) {
-	var css = obj.css;
-	var media = obj.media;
-
-	if(media) {
-		style.setAttribute("media", media)
-	}
-
-	if(style.styleSheet) {
-		style.styleSheet.cssText = css;
-	} else {
-		while(style.firstChild) {
-			style.removeChild(style.firstChild);
-		}
-
-		style.appendChild(document.createTextNode(css));
-	}
-}
-
-function updateLink (link, options, obj) {
-	var css = obj.css;
-	var sourceMap = obj.sourceMap;
-
-	/*
-		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
-		and there is no publicPath defined then lets turn convertToAbsoluteUrls
-		on by default.  Otherwise default to the convertToAbsoluteUrls option
-		directly
-	*/
-	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
-
-	if (options.convertToAbsoluteUrls || autoFixUrls) {
-		css = fixUrls(css);
-	}
-
-	if (sourceMap) {
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	var blob = new Blob([css], { type: "text/css" });
-
-	var oldSrc = link.href;
-
-	link.href = URL.createObjectURL(blob);
-
-	if(oldSrc) URL.revokeObjectURL(oldSrc);
-}
-
-
-/***/ }),
-/* 253 */,
+webpackJsonp([0],Array(254).concat([
 /* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -604,12 +64,14 @@ var LibPage = function (_Component) {
     var _this = _possibleConstructorReturn(this, (LibPage.__proto__ || Object.getPrototypeOf(LibPage)).call(this, props));
 
     _this.state = {
+      total: '?',
       type: props.match.params.type || '1',
       query: props.match.params.query || ''
     };
     _this.refreshStore = _this.refreshStore.bind(_this);
     _this.tabChangeHandler = _this.tabChangeHandler.bind(_this);
     _this.searchHandler = _this.searchHandler.bind(_this);
+    _this.refreshTotal = _this.refreshTotal.bind(_this);
     return _this;
   }
 
@@ -624,11 +86,38 @@ var LibPage = function (_Component) {
         });
       }
     }
+
+    /**
+     * 刷新local缓存信息
+     */
+
   }, {
     key: 'refreshStore',
     value: function refreshStore() {
       this.refs.header.refreshHeadIcon();
+      this.refs.iconlist0 && this.refs.iconlist0.refreshStoreIcon();
+      this.refs.iconlist1 && this.refs.iconlist1.refreshStoreIcon();
+      this.refs.iconlist2 && this.refs.iconlist2.refreshStoreIcon();
     }
+
+    /**
+     * 刷新总数
+     * @param total
+     */
+
+  }, {
+    key: 'refreshTotal',
+    value: function refreshTotal(total) {
+      this.setState({
+        total: total
+      });
+    }
+
+    /**
+     * 搜索事件
+     * @param value
+     */
+
   }, {
     key: 'searchHandler',
     value: function searchHandler(value) {
@@ -645,7 +134,7 @@ var LibPage = function (_Component) {
     key: 'tabChangeHandler',
     value: function tabChangeHandler(key) {
       this.props.history.push({
-        pathname: '/lib/' + encodeURIComponent(' ') + '/' + key + '}'
+        pathname: '/lib/' + encodeURIComponent(' ') + '/' + key
       });
       switch (Number(key)) {
         case 0:
@@ -682,10 +171,39 @@ var LibPage = function (_Component) {
             _react2.default.createElement(
               _MainContent2.default,
               null,
-              this.state.query ? _react2.default.createElement(
+              this.state.query.trim() ? _react2.default.createElement(
                 'div',
-                { className: 'lib-main-box' },
-                _react2.default.createElement(_IconList2.default, { ref: 'iconlist0', type: '0', query: this.state.query, refreshStore: this.refreshStore })
+                { className: 'query-result-box' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'query-tip-box' },
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'title' },
+                    this.state.query.trim()
+                  ),
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'count' },
+                    this.state.total
+                  ),
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'content' },
+                    'icons'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'lib-main-box' },
+                  _react2.default.createElement(_IconList2.default, {
+                    ref: 'iconlist0',
+                    type: '0',
+                    query: this.state.query,
+                    refreshStore: this.refreshStore,
+                    refreshTotal: this.refreshTotal
+                  })
+                )
               ) : _react2.default.createElement(
                 _tabs2.default,
                 { defaultActiveKey: this.state.type, animated: false, onChange: this.tabChangeHandler },
@@ -695,7 +213,11 @@ var LibPage = function (_Component) {
                   _react2.default.createElement(
                     'div',
                     { className: 'lib-main-box' },
-                    _react2.default.createElement(_IconList2.default, { ref: 'iconlist1', type: '1', refreshStore: this.refreshStore })
+                    _react2.default.createElement(_IconList2.default, {
+                      ref: 'iconlist1',
+                      type: '1',
+                      refreshStore: this.refreshStore
+                    })
                   )
                 ),
                 _react2.default.createElement(
@@ -704,7 +226,11 @@ var LibPage = function (_Component) {
                   _react2.default.createElement(
                     'div',
                     { className: 'lib-main-box' },
-                    _react2.default.createElement(_IconList2.default, { ref: 'iconlist2', type: '2', refreshStore: this.refreshStore })
+                    _react2.default.createElement(_IconList2.default, {
+                      ref: 'iconlist2',
+                      type: '2',
+                      refreshStore: this.refreshStore
+                    })
                   )
                 ),
                 _react2.default.createElement(
@@ -713,7 +239,11 @@ var LibPage = function (_Component) {
                   _react2.default.createElement(
                     'div',
                     { className: 'lib-main-box' },
-                    _react2.default.createElement(_IconList2.default, { ref: 'iconlist0', type: '0', refreshStore: this.refreshStore })
+                    _react2.default.createElement(_IconList2.default, {
+                      ref: 'iconlist0',
+                      type: '0',
+                      refreshStore: this.refreshStore
+                    })
                   )
                 )
               )
@@ -2450,6 +1980,22 @@ var Icon = function (_Component) {
         isFoved: isFoved
       });
     }
+  }, {
+    key: 'refresh',
+    value: function refresh() {
+      var _this2 = this;
+
+      var ifontFavIcons = _store2.default.get("_ifont_fav_icons") || [];
+      var isFoved = false;
+      ifontFavIcons.map(function (item) {
+        if (item.id == _this2.state.id) {
+          isFoved = true;
+        }
+      });
+      this.setState({
+        isFoved: isFoved
+      });
+    }
     /**
      * 渲染icon元素
      * @param  {array} todos  icon可操作的事件'fav','del'等
@@ -2460,7 +2006,7 @@ var Icon = function (_Component) {
   }, {
     key: 'renderTodos',
     value: function renderTodos(todos, info) {
-      var _this2 = this;
+      var _this3 = this;
 
       var todosHTML = [];
       var coverItemCls = '';
@@ -2481,12 +2027,12 @@ var Icon = function (_Component) {
           case 'del':
             btnTitle = '删除';
             btnIcon = 'icon-delete';
-            btnEvt = _this2.delIcon;
+            btnEvt = _this3.delIcon;
             break;
           case 'fav':
             btnTitle = info.isFoved ? '取消入库' : '添加入库';
             btnIcon = info.isFoved ? 'icon-favoritesfilling' : 'icon-favorite';
-            btnEvt = _this2.favIcon;
+            btnEvt = _this3.favIcon;
             break;
         }
         return _react2.default.createElement('span', { key: btnIcon + '_{info.id}', id: info.id, title: btnTitle, onClick: btnEvt, className: 'cover-item iconfont ' + btnIcon + ' ' + coverItemCls });
@@ -2529,9 +2075,7 @@ var Icon = function (_Component) {
       if (newArray.length > 0) {
         _store2.default.set("_ifont_fav_icons", newArray);
       }
-      this.setState({
-        isFoved: !this.state.isFoved
-      });
+      this.refresh();
       // 刷新头部数据
       this.props.refreshStore && this.props.refreshStore();
     }
@@ -3323,7 +2867,7 @@ var Header = function (_Component) {
       active: _this.props.active,
       refreshing: false,
       count: 0,
-      query: _this.props.query
+      query: _this.props.query || ' '
     };
     _this.changeHandler = _this.changeHandler.bind(_this);
     return _this;
@@ -3338,7 +2882,7 @@ var Header = function (_Component) {
     key: 'changeHandler',
     value: function changeHandler(e) {
       this.setState({
-        query: e.target.value
+        query: e.target.value || ' '
       });
     }
     /**
@@ -3434,10 +2978,9 @@ var Header = function (_Component) {
                   'li',
                   null,
                   _react2.default.createElement(Search, {
+                    value: this.state.query.trim(),
                     placeholder: '\u8BF7\u8F93\u5165\u641C\u7D20\u5185\u5BB9',
-                    value: this.state.query,
                     onChange: this.changeHandler,
-                    style: { width: 200 },
                     onSearch: function onSearch(value) {
                       _this3.props.onSearch(value);
                     }
@@ -4424,7 +3967,7 @@ exports = module.exports = __webpack_require__(251)(undefined);
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes ripple {\n  0% {\n    left: 10px;\n    top: 8px;\n    opacity: .95;\n    width: 0;\n    height: 0;\n  }\n  99% {\n    left: -25px;\n    top: -27px;\n    opacity: .3;\n    width: 80px;\n    height: 80px;\n  }\n  100% {\n    opacity: 0;\n  }\n}\n@keyframes ripple {\n  0% {\n    left: 10px;\n    top: 8px;\n    opacity: .95;\n    width: 0;\n    height: 0;\n  }\n  99% {\n    left: -25px;\n    top: -27px;\n    opacity: .3;\n    width: 80px;\n    height: 80px;\n  }\n  100% {\n    opacity: 0;\n  }\n}\n.Header {\n  height: 55px;\n  margin: 0 auto;\n  position: relative;\n}\n.Header .HeaderLogo {\n  background: url(" + __webpack_require__(378) + ") no-repeat;\n  width: 125px;\n  float: left;\n  height: 55px;\n  text-align: center;\n  font-size: 24px;\n}\n.Header .nav-box {\n  float: left;\n}\n.Header .nav-box .nav-list .nav-item {\n  float: left;\n  margin: 0 25px;\n  font-size: 14px;\n  position: relative;\n  line-height: 55px;\n}\n.Header .nav-box .nav-list .nav-item a {\n  color: rgba(255, 255, 255, 0.5);\n  text-decoration: none;\n}\n.Header .nav-box .nav-list .nav-item.current a {\n  color: #fff;\n  font-weight: bold;\n}\n.Header .quick-menu {\n  float: right;\n  height: 55px;\n  line-height: 55px;\n}\n.Header .quick-menu li {\n  margin: 0 13px;\n  float: left;\n  position: relative;\n}\n.Header .quick-menu li:hover .icon-login-user,\n.Header .quick-menu li:hover .icon-fav {\n  color: #fff;\n}\n.Header .quick-menu .ant-input {\n  background: rgba(20, 24, 33, 0.6);\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  border: 1px solid rgba(255, 255, 255, 0.3) !important;\n  outline: none;\n  color: #fff;\n  font-size: 14px;\n  padding-left: 12px;\n  border-radius: 30px;\n}\n.Header .quick-menu .ant-input:focus {\n  border: 1px solid rgba(255, 255, 255, 0.7) !important;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n}\n.Header .quick-menu .ant-input-suffix .ant-input-search-icon {\n  color: #999 !important;\n}\n.Header .quick-menu .ant-input-suffix .ant-input-search-icon:hover {\n  color: #fff !important;\n}\n.Header .quick-menu .icon-box {\n  color: rgba(255, 255, 255, 0.8);\n  cursor: pointer;\n  position: relative;\n}\n.Header .quick-menu .icon-box .iconfont {\n  font-size: 26px;\n  vertical-align: middle;\n}\n.Header .quick-menu .icon-fav-count {\n  min-width: 14px;\n  text-align: center;\n  line-height: 14px;\n  display: inline-block;\n  position: absolute;\n  right: -10px;\n  top: -12px;\n  background: #f40;\n  color: #fff;\n  border-radius: 17px;\n  padding: 6px;\n  font-size: 16px;\n  -webkit-transform: scale(0.7);\n          transform: scale(0.7);\n  font-family: Tahoma!important;\n}\n.Header .quick-menu .icon-fav-count::before {\n  content: ' ';\n  position: absolute;\n  left: 10px;\n  top: 8px;\n  opacity: .75;\n  width: 0;\n  height: 0;\n  background-color: red;\n  border-radius: 50%;\n  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3) inset;\n          box-shadow: 0 0 10px rgba(0, 0, 0, 0.3) inset;\n  z-index: -1;\n}\n.Header .quick-menu .count-ani::before {\n  -webkit-animation-name: ripple;\n  -webkit-animation-duration: .8s;\n  -webkit-animation-timing-function: ease;\n  -webkit-animation-delay: 0s;\n  -webkit-animation-iteration-count: 1;\n  -webkit-animation-direction: normal;\n}\n.Header .quick-menu .icon-login-user {\n  color: #ccc;\n  font-size: 14px;\n  padding: 0 6px;\n}\n", ""]);
+exports.push([module.i, "@-webkit-keyframes ripple {\n  0% {\n    left: 10px;\n    top: 8px;\n    opacity: .95;\n    width: 0;\n    height: 0;\n  }\n  99% {\n    left: -25px;\n    top: -27px;\n    opacity: .3;\n    width: 80px;\n    height: 80px;\n  }\n  100% {\n    opacity: 0;\n  }\n}\n@keyframes ripple {\n  0% {\n    left: 10px;\n    top: 8px;\n    opacity: .95;\n    width: 0;\n    height: 0;\n  }\n  99% {\n    left: -25px;\n    top: -27px;\n    opacity: .3;\n    width: 80px;\n    height: 80px;\n  }\n  100% {\n    opacity: 0;\n  }\n}\n.ant-input::-webkit-input-placeholder {\n  color: #999;\n}\n.ant-input::-moz-placeholder {\n  color: #999;\n}\n.ant-input:-ms-input-placeholder {\n  color: #999;\n}\n.Header {\n  height: 55px;\n  margin: 0 auto;\n  position: relative;\n}\n.Header .HeaderLogo {\n  background: url(" + __webpack_require__(378) + ") no-repeat;\n  width: 125px;\n  float: left;\n  height: 55px;\n  text-align: center;\n  font-size: 24px;\n}\n.Header .nav-box {\n  float: left;\n}\n.Header .nav-box .nav-list .nav-item {\n  float: left;\n  margin: 0 25px;\n  font-size: 14px;\n  position: relative;\n  line-height: 55px;\n}\n.Header .nav-box .nav-list .nav-item a {\n  color: rgba(255, 255, 255, 0.5);\n  text-decoration: none;\n}\n.Header .nav-box .nav-list .nav-item.current a {\n  color: #fff;\n  font-weight: bold;\n}\n.Header .quick-menu {\n  float: right;\n  height: 55px;\n  line-height: 55px;\n}\n.Header .quick-menu li {\n  margin: 0 13px;\n  float: left;\n  position: relative;\n}\n.Header .quick-menu li:hover .icon-login-user,\n.Header .quick-menu li:hover .icon-fav {\n  color: #fff;\n}\n.Header .quick-menu .ant-input {\n  background: rgba(20, 24, 33, 0.6);\n  -webkit-box-shadow: none;\n          box-shadow: none;\n  border: 1px solid rgba(255, 255, 255, 0.3) !important;\n  outline: none;\n  color: #fff;\n  font-size: 14px;\n  padding-left: 12px;\n  border-radius: 30px;\n}\n.Header .quick-menu .ant-input:focus {\n  border: 1px solid rgba(255, 255, 255, 0.7) !important;\n  -webkit-box-shadow: none;\n          box-shadow: none;\n}\n.Header .quick-menu .ant-input-suffix .ant-input-search-icon {\n  color: #999 !important;\n}\n.Header .quick-menu .ant-input-suffix .ant-input-search-icon:hover {\n  color: #fff !important;\n}\n.Header .quick-menu .icon-box {\n  color: rgba(255, 255, 255, 0.8);\n  cursor: pointer;\n  position: relative;\n}\n.Header .quick-menu .icon-box .iconfont {\n  font-size: 26px;\n  vertical-align: middle;\n}\n.Header .quick-menu .icon-fav-count {\n  min-width: 14px;\n  text-align: center;\n  line-height: 14px;\n  display: inline-block;\n  position: absolute;\n  right: -10px;\n  top: -12px;\n  background: #f40;\n  color: #fff;\n  border-radius: 17px;\n  padding: 6px;\n  font-size: 16px;\n  -webkit-transform: scale(0.7);\n          transform: scale(0.7);\n  font-family: Tahoma!important;\n}\n.Header .quick-menu .icon-fav-count::before {\n  content: ' ';\n  position: absolute;\n  left: 10px;\n  top: 8px;\n  opacity: .75;\n  width: 0;\n  height: 0;\n  background-color: red;\n  border-radius: 50%;\n  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3) inset;\n          box-shadow: 0 0 10px rgba(0, 0, 0, 0.3) inset;\n  z-index: -1;\n}\n.Header .quick-menu .count-ani::before {\n  -webkit-animation-name: ripple;\n  -webkit-animation-duration: .8s;\n  -webkit-animation-timing-function: ease;\n  -webkit-animation-delay: 0s;\n  -webkit-animation-iteration-count: 1;\n  -webkit-animation-direction: normal;\n}\n.Header .quick-menu .icon-login-user {\n  color: #ccc;\n  font-size: 14px;\n  padding: 0 6px;\n}\n", ""]);
 
 // exports
 
@@ -8812,11 +8355,6 @@ var IconList = function (_Component) {
       this.initPage();
     }
   }, {
-    key: 'onChange',
-    value: function onChange(page) {
-      this.fetchDates(page);
-    }
-  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       var oldQuery = this.props.query;
@@ -8825,34 +8363,80 @@ var IconList = function (_Component) {
         this.setState({
           query: newQuery
         });
-        this.fetchDates(this.state.currentPage);
+        this.fetchDates(this.state.currentPage, newQuery);
       }
     }
+    /**
+     * 初始化列表
+     */
+
+  }, {
+    key: 'initPage',
+    value: function initPage() {
+      this.fetchDates(1, this.state.query);
+    }
+
+    /**
+     * 分页改变事件
+     * @param page
+     */
+
+  }, {
+    key: 'onChange',
+    value: function onChange(page) {
+      this.fetchDates(page, this.state.query);
+    }
+
+    /**
+     * 渲染列表
+     * @param data 列表数据
+     */
+
   }, {
     key: 'renderList',
     value: function renderList(data) {
       var _this3 = this;
 
-      var _this = this;
       return data.map(function (item, i) {
         var todos = ['fav'];
-        return _react2.default.createElement(_Icon2.default, { key: item.id, info: item, todos: todos, refreshStore: function refreshStore() {
+        return _react2.default.createElement(_Icon2.default, {
+          key: item.id,
+          info: item,
+          ref: 'icon_' + i,
+          todos: todos,
+          refreshStore: function refreshStore() {
             _this3.props.refreshStore();
-          } });
+          }
+        });
       });
     }
+
+    /**
+     * 缓存变化刷新列表信息
+     */
+
   }, {
-    key: 'initPage',
-    value: function initPage() {
-      this.fetchDates(1);
+    key: 'refreshStoreIcon',
+    value: function refreshStoreIcon() {
+      var len = this.state.list.length;
+      for (var i = 0; i < len; i++) {
+        var iconI = 'icon_' + i;
+        this.refs[iconI].refresh();
+      }
     }
+    /**
+     * 获取列表信息
+     * @param page
+     */
+
   }, {
     key: 'fetchDates',
-    value: function fetchDates(page) {
+    value: function fetchDates(page, query) {
+      var _this4 = this;
+
       var _this = this;
       var _this$state = _this.state,
           type = _this$state.type,
-          query = _this$state.query,
           pageSize = _this$state.pageSize;
 
       var pageStart = page - 1;
@@ -8873,8 +8457,16 @@ var IconList = function (_Component) {
           list: res.data.result,
           total: res.data.total
         });
+        _this4.props.refreshTotal && _this4.props.refreshTotal(res.data.total);
       });
     }
+
+    /**
+     * f分页端显示总数
+     * @param total 总数
+     * @returns {string} 显示内容
+     */
+
   }, {
     key: 'showTotal',
     value: function showTotal(total) {
@@ -8888,7 +8480,6 @@ var IconList = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var total = this.state.total;
       var iconList = this.renderList(this.state.list);
       return _react2.default.createElement(
         'div',
@@ -9291,7 +8882,7 @@ exports = module.exports = __webpack_require__(251)(undefined);
 
 
 // module
-exports.push([module.i, "body {\n  background: url(" + __webpack_require__(491) + ") #000 !important;\n}\n#page {\n  position: relative;\n}\n#page .page-main {\n  min-height: 100%;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  padding-bottom: 60px;\n}\n#page .page-main .ant-tabs {\n  margin-top: 15px;\n  color: rgba(255, 255, 255, 0.5);\n  width: 100%;\n}\n#page .page-main .ant-tabs-bar {\n  border-bottom: 0;\n  margin-bottom: 0;\n}\n#page .page-main .ant-tabs-ink-bar {\n  background: #f40;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab {\n  padding: 15px 20px;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab:hover {\n  color: #fff;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab-active {\n  color: #fff;\n}\n#page .lib-main-box {\n  min-height: 800px;\n  color: #333;\n  background: #fcfcfc;\n  overflow: hidden;\n}\n", ""]);
+exports.push([module.i, "body {\n  background: url(" + __webpack_require__(491) + ") #000 !important;\n}\n#page {\n  position: relative;\n}\n#page .page-main {\n  min-height: 100%;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  padding-bottom: 60px;\n}\n#page .page-main .ant-tabs {\n  margin-top: 35px;\n  color: rgba(255, 255, 255, 0.5);\n  width: 100%;\n}\n#page .page-main .ant-tabs-bar {\n  border-bottom: 0;\n  margin-bottom: 0;\n}\n#page .page-main .ant-tabs-ink-bar {\n  background: #f40;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab {\n  padding: 15px 20px;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab:hover {\n  color: #fff;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab-active {\n  color: #fff;\n}\n#page .query-result-box {\n  position: relative;\n}\n#page .query-result-box .query-tip-box {\n  width: 100%;\n  height: 81px;\n  overflow: hidden;\n  color: #fff;\n}\n#page .query-result-box .query-tip-box span {\n  font-size: 16px;\n  line-height: 1.5em;\n  display: block;\n  float: left;\n  margin-top: 30px;\n}\n#page .query-result-box .query-tip-box span.title {\n  font-size: 24px;\n  margin: 0 15px 0 30px;\n  margin-top: 20px;\n}\n#page .query-result-box .query-tip-box span.count {\n  font-weight: bold;\n  color: #f40;\n  margin-right: 6px;\n}\n#page .lib-main-box {\n  min-height: 800px;\n  color: #333;\n  background: #fcfcfc;\n  overflow: hidden;\n}\n", ""]);
 
 // exports
 
@@ -18145,4 +17736,4 @@ module.exports = __webpack_require__.p + "static/images/18bc265c.bg.png";
 
 /***/ })
 ]));
-//# sourceMappingURL=Lib.3f8cd31c.js.map
+//# sourceMappingURL=Lib.42811399.js.map
