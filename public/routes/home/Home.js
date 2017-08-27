@@ -33,6 +33,9 @@ class HomePage extends Component{
               active="home"
               ref="header"
               hideSearch={true}
+              refreshStore={() => {
+                this.refs.header.refreshHeadIcon();
+              }}
             />
             <MainContent>
               <div className="home-main-box">

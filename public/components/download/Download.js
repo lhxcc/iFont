@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import store from 'store';
 import FetchData from './../../base/scripts/FetchData.js';
+import { Button } from 'antd';
 import Icon from './../icon/Icon';
 import './Download.less';
 
@@ -11,6 +12,7 @@ class Download extends Component {
       list: [],
       show: false,
       loading: false,
+      downLoading: false,
       downloadLink: ''
     };
     this.clearHandler = this.clearHandler.bind(this);
@@ -52,6 +54,9 @@ class Download extends Component {
   startDownloadIcons() {
     const list = this.state.list;
     if(list.length == 0) return false;
+    this.setState({
+      downLoading: true
+    });
     const idList = [];
     list.map(item => {
       idList.push({
@@ -66,11 +71,18 @@ class Download extends Component {
       }
     });
     fetchData.then((res) => {
+      this.setState({
+        downLoading: false
+      });
       const url = res.data.file;
       this.setState({
         downloadLink: url
       });
       this.refs.downloadLink.click();
+    }).catch(err => {
+      this.setState({
+        downLoading: false
+      });
     });
   }
   /**
@@ -127,7 +139,25 @@ class Download extends Component {
           </div>
           <div className="download-btn-group">
             <a className="downloadLink" href={this.state.downloadLink} ref="downloadLink"></a>
-            <div onClick={this.startDownloadIcons} className={`btn btn-normal download-btn ${this.state.list.length > 0 ? '' : 'btn-disabled'}`}>代码下载</div>
+            {this.state.list.length > 0
+              ? <Button
+                  type="primary"
+                  className="btn btn-normal download-btn"
+                  onClick={this.startDownloadIcons}
+                  loading={this.state.downLoading}
+                  onClick={this.startDownloadIcons}
+                >
+                  代码下载
+                </Button>
+              : <Button
+                  type="primary"
+                  disabled
+                  className="btn btn-normal download-btn btn-disabled"
+                >
+                  代码下载
+                </Button>
+            }
+            
           </div>
         </div>
       </div>

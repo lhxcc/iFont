@@ -30,6 +30,7 @@ html ::-webkit-scrollbar-thumb:horizontal{/*水平滚动条的样式*/
 html {
   font-size: 625%;
   height: 100%;
+  overflow: hidden;
 }
 @media screen and (min-width: 960px){
 
@@ -52,6 +53,7 @@ body {
   background: #f3f7fa;
   font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 12px;
+  overflow: auto;
 }
 
 ol, ul,li {

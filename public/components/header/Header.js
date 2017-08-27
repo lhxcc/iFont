@@ -63,7 +63,7 @@ class Header extends Component {
         <MainContent>
           <div className="HeaderContent">
             <div className="HeaderLeft">
-              <span className="HeaderLogo" />
+              <Link className="HeaderLogo" to='/' />
             </div>
             <nav className="nav-box">
               <ul className="nav-list clearfix">
