@@ -1,24 +1,21 @@
 
 # ys-iFont
 
-### 前端开发组知识库服务
+### icnfont网站构建
 
 ## 安装
 
 ```
+git clone https://github.com/yaoguofeng00000/iFont.git
+
+cd iFont
+
 npm install
-```
 
-## 配置
+前端代码构建
+gulp default
 
-```
-修改config中文件
-fileCfg.inputDir 入口文件目录(svg图片池)
-fileCfg.outputDir 出口文件目录
-```
+启动服务
+pm2 start pm2.json
 
-## 启动
-
-```
-npm start
 ```
