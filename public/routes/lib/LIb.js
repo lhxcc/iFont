@@ -103,7 +103,7 @@ class LibPage extends Component{
                 ?
                 <div className="query-result-box">
                   <div className="query-tip-box">
-                    <span className="title">{this.state.query.trim()}</span>
+                    <span className="title" title={this.state.query.trim()}>{this.state.query.trim()}</span>
                     <span className="count">{this.state.total}</span>
                     <span className="content">icons</span>
                   </div>

@@ -182,7 +182,7 @@ var LibPage = function (_Component) {
                   { className: 'query-tip-box' },
                   _react2.default.createElement(
                     'span',
-                    { className: 'title' },
+                    { className: 'title', title: this.state.query.trim() },
                     this.state.query.trim()
                   ),
                   _react2.default.createElement(
@@ -10131,7 +10131,7 @@ exports = module.exports = __webpack_require__(259)(undefined);
 
 
 // module
-exports.push([module.i, "body {\n  background: url(" + __webpack_require__(505) + ") #000 !important;\n}\n#page {\n  position: relative;\n}\n#page .page-main {\n  min-height: 100%;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  padding-bottom: 60px;\n}\n#page .page-main .ant-tabs {\n  margin-top: 35px;\n  color: rgba(255, 255, 255, 0.5);\n  width: 100%;\n}\n#page .page-main .ant-tabs-bar {\n  border-bottom: 0;\n  margin-bottom: 0;\n}\n#page .page-main .ant-tabs-ink-bar {\n  background: #f40;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab {\n  padding: 15px 20px;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab:hover {\n  color: #fff;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab-active {\n  color: #fff;\n}\n#page .query-result-box {\n  position: relative;\n}\n#page .query-result-box .query-tip-box {\n  width: 100%;\n  height: 81px;\n  overflow: hidden;\n  color: #fff;\n}\n#page .query-result-box .query-tip-box span {\n  font-size: 16px;\n  line-height: 1.5em;\n  display: block;\n  float: left;\n  margin-top: 30px;\n}\n#page .query-result-box .query-tip-box span.title {\n  font-size: 24px;\n  margin: 0 15px 0 30px;\n  margin-top: 20px;\n}\n#page .query-result-box .query-tip-box span.count {\n  font-weight: bold;\n  color: #f40;\n  margin-right: 6px;\n}\n#page .lib-main-box {\n  min-height: 800px;\n  color: #333;\n  background: #fcfcfc;\n  overflow: hidden;\n}\n", ""]);
+exports.push([module.i, "body {\n  background: url(" + __webpack_require__(505) + ") #000 !important;\n}\n#page {\n  position: relative;\n}\n#page .page-main {\n  min-height: 100%;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  padding-bottom: 60px;\n}\n#page .page-main .ant-tabs {\n  margin-top: 35px;\n  color: rgba(255, 255, 255, 0.5);\n  width: 100%;\n}\n#page .page-main .ant-tabs-bar {\n  border-bottom: 0;\n  margin-bottom: 0;\n}\n#page .page-main .ant-tabs-ink-bar {\n  background: #f40;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab {\n  padding: 15px 20px;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab:hover {\n  color: #fff;\n}\n#page .page-main .ant-tabs-nav .ant-tabs-tab-active {\n  color: #fff;\n}\n#page .query-result-box {\n  position: relative;\n}\n#page .query-result-box .query-tip-box {\n  width: 100%;\n  height: 81px;\n  overflow: hidden;\n  color: #fff;\n}\n#page .query-result-box .query-tip-box span {\n  font-size: 16px;\n  line-height: 1.5em;\n  display: block;\n  float: left;\n  margin-top: 30px;\n}\n#page .query-result-box .query-tip-box span.title {\n  font-size: 24px;\n  margin: 0 15px 0 30px;\n  margin-top: 20px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  max-width: 60%;\n}\n#page .query-result-box .query-tip-box span.count {\n  font-weight: bold;\n  color: #f40;\n  margin-right: 6px;\n}\n#page .lib-main-box {\n  min-height: 800px;\n  color: #333;\n  background: #fcfcfc;\n  overflow: hidden;\n}\n", ""]);
 
 // exports
 
@@ -18148,4 +18148,4 @@ module.exports = __webpack_require__.p + "static/images/18bc265c.bg.png";
 
 /***/ })
 ]));
-//# sourceMappingURL=Lib.f9cfaafc.js.map
+//# sourceMappingURL=Lib.6f15dad6.js.map
